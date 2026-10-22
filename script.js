@@ -218,7 +218,6 @@ function atualizarFocoTeclado(grupoSelector) {
 }
 
 window.addEventListener("keydown", (e) => {
-    // ATALHO PARA TELA DE MORTE
     const telaMorteAtiva = document.getElementById("tela-morte").style.display === "flex";
     if (telaMorteAtiva) {
         if (e.key === "Enter" || e.key === " ") {
@@ -228,7 +227,6 @@ window.addEventListener("keydown", (e) => {
         return;
     }
 
-    // ATALHO PARA TELA INICIAL
     if (!jogoIniciado) {
         if (e.key === "Enter" || e.key === " ") {
             e.preventDefault();
@@ -237,9 +235,8 @@ window.addEventListener("keydown", (e) => {
         return;
     }
 
-    if (emFaseDesvio) return; // Pausa a navegação de menus durante a fase de desvio
+    if (emFaseDesvio) return;
 
-    // TECLA DE VOLTAR / CANCELAR (ESC, X, BACKSPACE)
     if (e.key === "Escape" || e.key.toLowerCase() === "x" || e.key === "Backspace") {
         if (emCombate) {
             e.preventDefault();
@@ -249,38 +246,35 @@ window.addEventListener("keydown", (e) => {
             document.getElementById("caixa-texto").style.display = "block";
             escreverTexto(`* O combate contra ${animalAtual.nome} continua!\n* O que você fará?`);
 
-            indiceFocado = 1; // Foca direto no botão AGIR
+            indiceFocado = 1;
             atualizarFocoTeclado("#botoes-principais .ut-btn");
             return;
         }
     }
 
-    // NAVEGAÇÃO DE SETA PARA BAIXO (DESCE DO SUBMENU PARA OS BOTÕES INFERIORES)
     if (e.key === "ArrowDown") {
         const estaEmSubmenu = document.getElementById("menu-interativo").style.display === "grid";
         if (estaEmSubmenu && (indiceFocado === 2 || indiceFocado === 3 || botoesAtivos.length <= 2)) {
             e.preventDefault();
             tocarSomBeep(400, 0.02, "square");
-            indiceFocado = 1; // Desce para o botão AGIR
+            indiceFocado = 1;
             atualizarFocoTeclado("#botoes-principais .ut-btn");
             return;
         }
     }
 
-    // NAVEGAÇÃO DE SETA PARA CIMA (SOBE DOS BOTÕES INFERIORES PARA O SUBMENU)
     if (e.key === "ArrowUp") {
         const estaEmSubmenu = document.getElementById("menu-interativo").style.display === "grid";
         const emBotoesPrincipais = botoesAtivos.length > 0 && botoesAtivos[0].classList.contains("ut-btn");
         if (estaEmSubmenu && emBotoesPrincipais) {
             e.preventDefault();
             tocarSomBeep(400, 0.02, "square");
-            indiceFocado = 0; // Sobe para a primeira opção do submenu
+            indiceFocado = 0;
             atualizarFocoTeclado(".opcao-ut");
             return;
         }
     }
 
-    // NAVEGAÇÃO PADRÃO COM SETAS E ENTER
     if (e.key === "ArrowRight" || e.key === "ArrowDown") {
         e.preventDefault();
         tocarSomBeep(400, 0.02, "square");
@@ -323,7 +317,7 @@ function escreverTexto(texto, callback = null) {
     intervaloTexto = setInterval(() => {
         if (index < texto.length) {
             const charAtual = texto.charAt(index);
-            el.innerText += charAtual;
+            el.innerText += charAtual; // Garante que o caractere (incluindo espaço) seja adicionado corretamente
 
             if (charAtual !== " " && charAtual !== "\n") {
                 tocarSomBeep(300 + Math.random() * 50, 0.03, "square");
@@ -337,7 +331,7 @@ function escreverTexto(texto, callback = null) {
 }
 
 /* =========================================
-   ATUALIZAÇÃO DE INTERFACE
+   ATUALIZAÇÃO DE INTERFACE & HP DA FERA
 ========================================= */
 function atualizarStatus() {
     document.getElementById("lv-display").innerText = `LV ${nivel}`;
@@ -345,6 +339,21 @@ function atualizarStatus() {
 
     const percentual = Math.max(0, Math.min(100, (vida / vidaMax) * 100));
     document.getElementById("hp-bar-fill").style.width = `${percentual}%`;
+}
+
+function atualizarHpInimigo() {
+    const container = document.getElementById("inimigo-hp-container");
+    const fill = document.getElementById("inimigo-hp-fill");
+    const nomeDisplay = document.getElementById("inimigo-nome-display");
+
+    if (animalAtual && emCombate) {
+        container.style.display = "block";
+        nomeDisplay.innerText = animalAtual.nome;
+        const percentual = Math.max(0, Math.min(100, (animalAtual.hp / animalAtual.hpMax) * 100));
+        fill.style.width = `${percentual}%`;
+    } else {
+        container.style.display = "none";
+    }
 }
 
 function mostrarMonstro(mostrar = true, fala = "") {
@@ -409,8 +418,11 @@ function explorar() {
 
     animalAtual = Object.assign({}, inimigos[Math.floor(Math.random() * inimigos.length)]);
     animalAtual.chancePiedade = animalAtual.chancePiedade || 20;
+    animalAtual.hpMax = animalAtual.hpMax || 20;
+    animalAtual.hp = animalAtual.hpMax;
 
     mostrarMonstro(true, animalAtual.fala);
+    atualizarHpInimigo();
     ocultarModosDisplay();
     document.getElementById("caixa-texto").style.display = "block";
 
@@ -450,9 +462,27 @@ function açaoLutar() {
     tocarSomAcao();
 
     const danoCausado = danoAtaque + Math.floor(Math.random() * 3);
+    animalAtual.hp -= danoCausado;
+    atualizarHpInimigo();
     tocarSomBeep(600, 0.1, "sawtooth");
 
-    prepararAtaqueInimigo(`* Você atacou ${animalAtual.nome} e causou ${danoCausado} de dano!`);
+    if (animalAtual.hp <= 0) {
+        const almasGanha = Math.floor(animalAtual.almas * 1.2);
+        almas += almasGanha;
+
+        ocultarModosDisplay();
+        document.getElementById("caixa-texto").style.display = "block";
+        mostrarMonstro(false);
+        atualizarHpInimigo();
+
+        escreverTexto(`* Você atacou e derrotou ${animalAtual.nome}!\n* Você absorveu ${almasGanha} Almas.`, () => {
+            setTimeout(() => {
+                restaurarMenu();
+            }, 1800);
+        });
+    } else {
+        prepararAtaqueInimigo(`* Você atacou ${animalAtual.nome} e causou ${danoCausado} de dano!`);
+    }
 }
 
 function açaoAgir() {
@@ -567,6 +597,9 @@ function açaoPiedade() {
         const almasGanha = animalAtual.almas;
         almas += almasGanha;
 
+        mostrarMonstro(false);
+        atualizarHpInimigo();
+
         escreverTexto(`* PIEDADE BEM-SUCEDIDA!\n* Você poupou ${animalAtual.nome} e absorveu ${almasGanha} Almas!`, () => {
             setTimeout(() => {
                 restaurarMenu();
@@ -579,13 +612,14 @@ function açaoPiedade() {
 }
 
 /* =========================================
-   ARENA COM O SPRITE DA SKIN EQUIPADA (BULLET HELL)
+   ARENA / BULLET HELL (VELOCIDADE CALIBRADA + ENTRADA LIMPA)
 ========================================= */
 let canvasArena, ctxArena;
 let heroiX = 250, heroiY = 110;
 let projeteis = [];
 let tempoSobrevivencia = 0;
 let loopArenaId = null;
+let delayEntradaProjeteis = 0;
 let teclasGame = { ArrowLeft: false, ArrowRight: false, ArrowUp: false, ArrowDown: false };
 
 function iniciarFaseAtaqueInimigo() {
@@ -599,13 +633,18 @@ function iniciarFaseAtaqueInimigo() {
     heroiX = canvasArena.width / 2;
     heroiY = canvasArena.height / 2;
 
+    delayEntradaProjeteis = 50; // Tempo limpo de respiro inicial (~quase 1 segundo)
+
     projeteis = [];
+    // Velocidade calibrada: nem muito rápida como no início, nem muito lenta
+    const velocidadeBase = Math.max(1.6, (animalAtual.velocidade * 0.55));
+
     for (let i = 0; i < animalAtual.quantidade; i++) {
         projeteis.push({
             x: Math.random() * (canvasArena.width - 20) + 10,
-            y: -(i * 40) - 20,
-            vy: animalAtual.velocidade + Math.random() * 1.5,
-            vx: (Math.random() - 0.5) * 1.5
+            y: -(i * 50) - 50,
+            vy: velocidadeBase + Math.random() * 0.8,
+            vx: (Math.random() - 0.5) * 0.8
         });
     }
 
@@ -643,61 +682,65 @@ function loopArena() {
         ctxArena.fillRect(heroiX - 8, heroiY - 8, 16, 16);
     }
 
-    ctxArena.fillStyle = "#ffffff";
-    for (let p of projeteis) {
-        p.y += p.vy;
-        p.x += p.vx;
+    if (delayEntradaProjeteis > 0) {
+        delayEntradaProjeteis--;
+    } else {
+        ctxArena.fillStyle = "#ffffff";
+        for (let p of projeteis) {
+            p.y += p.vy;
+            p.x += p.vx;
 
-        if (p.y > canvasArena.height) {
-            p.y = -10;
-            p.x = Math.random() * (canvasArena.width - 20) + 10;
-        }
+            if (p.y > canvasArena.height) {
+                p.y = -20;
+                p.x = Math.random() * (canvasArena.width - 20) + 10;
+            }
 
-        ctxArena.beginPath();
-        ctxArena.arc(p.x, p.y, 4, 0, Math.PI * 2);
-        ctxArena.fill();
+            ctxArena.beginPath();
+            ctxArena.arc(p.x, p.y, 4, 0, Math.PI * 2);
+            ctxArena.fill();
 
-        const dx = heroiX - p.x;
-        const dy = heroiY - p.y;
-        if (Math.sqrt(dx * dx + dy * dy) < 14) {
-            clearInterval(loopArenaId);
-            emFaseDesvio = false;
-            tocarSomDano();
-
-            vida -= animalAtual.dano;
-            atualizarStatus();
-
-            ocultarModosDisplay();
-            document.getElementById("caixa-texto").style.display = "block";
-
-            if (vida <= 0) {
+            const dx = heroiX - p.x;
+            const dy = heroiY - p.y;
+            if (Math.sqrt(dx * dx + dy * dy) < 14) {
                 clearInterval(loopArenaId);
                 emFaseDesvio = false;
                 tocarSomDano();
 
+                vida -= animalAtual.dano;
+                atualizarStatus();
+
                 ocultarModosDisplay();
-                document.getElementById("undertale-box").style.display = "none";
-                
-                const telaMorte = document.getElementById("tela-morte");
-                if (telaMorte) {
-                    telaMorte.style.display = "flex";
-                    setTimeout(() => {
-                        const btnRecomecar = document.getElementById("btn-recomecar");
-                        if (btnRecomecar) btnRecomecar.classList.add("focado");
-                    }, 100);
+                document.getElementById("caixa-texto").style.display = "block";
+
+                if (vida <= 0) {
+                    clearInterval(loopArenaId);
+                    emFaseDesvio = false;
+                    tocarSomDano();
+
+                    ocultarModosDisplay();
+                    document.getElementById("undertale-box").style.display = "none";
+                    
+                    const telaMorte = document.getElementById("tela-morte");
+                    if (telaMorte) {
+                        telaMorte.style.display = "flex";
+                        setTimeout(() => {
+                            const btnRecomecar = document.getElementById("btn-recomecar");
+                            if (btnRecomecar) btnRecomecar.classList.add("focado");
+                        }, 100);
+                    }
+                    return;
+                } else {
+                    escreverTexto(`* Você tomou ${animalAtual.dano} de dano!`, () => {
+                        setTimeout(() => {
+                            ocultarModosDisplay();
+                            document.getElementById("caixa-texto").style.display = "block";
+                            alternarBotoesCombate(true);
+                            escreverTexto(`* O combate continua! O que você fará?`);
+                        }, 1200);
+                    });
                 }
                 return;
-            } else {
-                escreverTexto(`* Você tomou ${animalAtual.dano} de dano!`, () => {
-                    setTimeout(() => {
-                        ocultarModosDisplay();
-                        document.getElementById("caixa-texto").style.display = "block";
-                        alternarBotoesCombate(true);
-                        escreverTexto(`* O combate continua! O que você fará?`);
-                    }, 1200);
-                });
             }
-            return;
         }
     }
 
@@ -726,6 +769,7 @@ function fogueira() {
     tocarSomAcao();
     emCombate = false;
     mostrarMonstro(false);
+    atualizarHpInimigo();
     alternarBotoesCombate(false);
 
     const display = document.getElementById("display-principal");
@@ -736,20 +780,22 @@ function fogueira() {
     macas = macasMax;
     atualizarStatus();
 
-    ocultarModosDisplay();
-
+    document.getElementById("caixa-texto").style.display = "none";
+    document.getElementById("arena-box").style.display = "none";
+    
     const menu = document.getElementById("menu-interativo");
     menu.style.display = "grid";
 
     menu.innerHTML = `
-        <div class="opcao-ut" onclick="evoluirNivel()" style="grid-column: span 2; text-align: center;">
-            🔮 EVOLUIR LEVEL (Custo: ${almasNecessarias} Almas | Você tem: ${almas})
+        <div style="grid-column: span 2; color: #ffffff; font-size: 11px; margin-bottom: 5px; line-height: 1.4; text-align: left; padding: 0 10px;">
+            * Você descansa perto das chamas acesas.<br>
+            * HP e Maçãs restaurados. Almas: ${almas}
+        </div>
+        <div class="opcao-ut focado" onclick="evoluirNivel()" style="grid-column: span 2; text-align: center;">
+            🔮 EVOLUIR LEVEL (Custo: ${almasNecessarias} Almas)
         </div>
     `;
 
-    escreverTexto(`* Você descansa perto das chamas acesas.\n* HP e Maçãs restaurados.\n* Almas: ${almas} | Custo Próximo LV: ${almasNecessarias}`);
-
-    // Garante que o índice e o foco do teclado reiniciem corretamente
     setTimeout(() => {
         indiceFocado = 0;
         atualizarFocoTeclado(".opcao-ut");
@@ -773,10 +819,8 @@ function evoluirNivel() {
         ocultarModosDisplay();
         document.getElementById("caixa-texto").style.display = "block";
 
-        escreverTexto(`* SEU LEVEL AUMENTOU PARA LV ${nivel}!\n* +3 HP Max | +2 Dano | +0.5 Agilidade!\n* Preenchido com DETERMINAÇÃO.`, () => {
+        escreverTexto(`* SEU LEVEL AUMENTOU PARA LV ${nivel}!\n* +3 HP Max | +2 Dano | +0.5 Agilidade!`, () => {
             setTimeout(() => {
-                // Em vez de chamar fogueira() direto que recriava o HTML atropelando o fluxo,
-                // chamamos a fogueira de forma limpa após a mensagem:
                 fogueira();
             }, 1500);
         });
@@ -785,7 +829,7 @@ function evoluirNivel() {
         ocultarModosDisplay();
         document.getElementById("caixa-texto").style.display = "block";
 
-        escreverTexto(`* Almas insuficientes! Você precisa de ${almasNecessarias} Almas para o próximo LV.`, () => {
+        escreverTexto(`* Almas insuficientes! Você precisa de ${almasNecessarias} Almas.`, () => {
             setTimeout(() => {
                 fogueira();
             }, 1200);
@@ -797,12 +841,16 @@ function restaurarMenu() {
     emCombate = false;
     emFaseDesvio = false;
     mostrarMonstro(false);
+    atualizarHpInimigo();
     alternarBotoesCombate(false);
     removerFundoFogueira();
 
     ocultarModosDisplay();
     document.getElementById("caixa-texto").style.display = "block";
-    escreverTexto(`* O caminho se abre à sua frente.\n* O que você fará?`);
+    escreverTexto(`* O caminho se abre à sua frente.\n* O que você fará?`, () => {
+        indiceFocado = 0;
+        atualizarFocoTeclado("#menu-navegacao .sub-btn");
+    });
 }
 
 function reiniciarJogoCompleto() {
@@ -932,7 +980,14 @@ function equiparSkin(chave) {
 function fecharModal() {
     tocarSomAcao();
     document.getElementById("modal-overlay").style.display = "none";
-    atualizarFocoTeclado("#menu-navegacao .sub-btn");
+    
+    if (emCombate) {
+        indiceFocado = 0;
+        atualizarFocoTeclado("#botoes-principais .ut-btn");
+    } else {
+        indiceFocado = 0;
+        atualizarFocoTeclado("#menu-navegacao .sub-btn");
+    }
 }
 
 // Inicialização de Status

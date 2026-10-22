@@ -26,16 +26,27 @@
         <div class="morte-container">
             <h1 class="texto-game-over">VOCÊ MORREU</h1>
             <p class="sub-morte">* Mantenha a sua DETERMINAÇÃO...</p>
-            <div id="btn-recomecar" class="focado" onclick="reiniciarJogoCompleto()">
+            <div id="btn-recomecar" onclick="reiniciarJogoCompleto()">
                 RECOMEÇAR
             </div>
         </div>
     </div>
-    
-    <!-- TELA PRINCIPAL DO JOGO (ESCONDIDA DE INÍCIO) -->
+
+    <!-- TELA PRINCIPAL DO JOGO -->
     <div id="undertale-box" style="display: none;">
-        <!-- ÁREA SUPERIOR: MONSTRO E DIÁLOGO -->
+        <!-- ÁREA SUPERIOR: MONSTRO, HP DA FERA E DIÁLOGO -->
         <div id="inimigo-area">
+            <!-- BARRA DE HP DO INIMIGO -->
+            <div id="inimigo-hp-container" style="display: none; text-align: center; margin-bottom: 8px;">
+                <span id="inimigo-nome-display" style="font-size: 10px; color: #ff3399; margin-right: 8px; text-shadow: 0 0 6px rgba(255, 51, 153, 0.5);">Fera</span>
+                <div style="display: inline-flex; align-items: center; gap: 8px;">
+                    <span style="font-size: 9px; color: #ff3333;">HP</span>
+                    <div id="inimigo-hp-bar-bg">
+                        <div id="inimigo-hp-fill"></div>
+                    </div>
+                </div>
+            </div>
+
             <div id="monstro-sprite-container">
                 <img id="monstro-img" src="assets/img/animais/pombo.png" alt="Inimigo" style="display: none;">
                 <div id="balao-fala" style="display: none;">
