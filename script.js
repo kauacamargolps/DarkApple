@@ -749,10 +749,11 @@ function fogueira() {
 
     escreverTexto(`* Você descansa perto das chamas acesas.\n* HP e Maçãs restaurados.\n* Almas: ${almas} | Custo Próximo LV: ${almasNecessarias}`);
 
+    // Garante que o índice e o foco do teclado reiniciem corretamente
     setTimeout(() => {
         indiceFocado = 0;
         atualizarFocoTeclado(".opcao-ut");
-    }, 100);
+    }, 50);
 }
 
 function evoluirNivel() {
@@ -774,8 +775,10 @@ function evoluirNivel() {
 
         escreverTexto(`* SEU LEVEL AUMENTOU PARA LV ${nivel}!\n* +3 HP Max | +2 Dano | +0.5 Agilidade!\n* Preenchido com DETERMINAÇÃO.`, () => {
             setTimeout(() => {
+                // Em vez de chamar fogueira() direto que recriava o HTML atropelando o fluxo,
+                // chamamos a fogueira de forma limpa após a mensagem:
                 fogueira();
-            }, 1800);
+            }, 1500);
         });
     } else {
         tocarSomBeep(150, 0.2, "sawtooth");
@@ -785,7 +788,7 @@ function evoluirNivel() {
         escreverTexto(`* Almas insuficientes! Você precisa de ${almasNecessarias} Almas para o próximo LV.`, () => {
             setTimeout(() => {
                 fogueira();
-            }, 1500);
+            }, 1200);
         });
     }
 }
