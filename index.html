@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark Apples: Undertale Edition</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- TELA INICIAL / TITLE SCREEN -->
+    <div id="tela-inicio">
+        <div class="titulo-jogo">
+            <h1>DARK APPLES</h1>
+            <p class="subtitulo">UNDER-SOULS EDITION</p>
+        </div>
+
+        <div id="btn-iniciar-jogo" onclick="iniciarJogo()">
+            COMECAR
+        </div>
+    </div>
+
+    <!-- TELA PRINCIPAL DO JOGO (ESCONDIDA DE INÍCIO) -->
+    <div id="undertale-box" style="display: none;">
+        <!-- ÁREA SUPERIOR: MONSTRO E DIÁLOGO -->
+        <div id="inimigo-area">
+            <div id="monstro-sprite-container">
+                <img id="monstro-img" src="assets/img/animais/pombo.png" alt="Inimigo" style="display: none;">
+                <div id="balao-fala" style="display: none;">
+                    <span id="balao-texto">...</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ÁREA CENTRAL: CAIXA DE DIÁLOGO / ARENA / FOGUEIRA -->
+        <div id="display-principal">
+            <canvas id="canvasFogueira" style="display: none;"></canvas>
+
+            <div id="caixa-texto">
+                <p id="narrativa-texto"></p>
+            </div>
+
+            <div id="arena-box" style="display: none;">
+                <canvas id="canvasArena" width="500" height="220"></canvas>
+            </div>
+
+            <div id="menu-interativo" style="display: none;"></div>
+        </div>
+
+        <!-- BARRA DE STATUS COLORIDA -->
+        <div id="status-bar">
+            <div class="player-info">
+                <span id="nome-jogador">MP</span>
+                <span id="lv-display">LV 1</span>
+            </div>
+            <div id="hp-container">
+                <span class="hp-label">HP</span>
+                <div id="hp-bar-bg">
+                    <div id="hp-bar-fill"></div>
+                </div>
+                <span id="hp-text">20 / 20</span>
+            </div>
+        </div>
+
+        <!-- BOTÕES DE COMBATE -->
+        <div id="botoes-principais" style="display: none;">
+            <button class="ut-btn" id="btn-lutar" onclick="açaoLutar()">LUTAR</button>
+            <button class="ut-btn" id="btn-agir" onclick="açaoAgir()">AGIR</button>
+            <button class="ut-btn" id="btn-item" onclick="açaoItem()">ITEM</button>
+            <button class="ut-btn" id="btn-piedade" onclick="açaoPiedade()">PIEDADE</button>
+        </div>
+
+        <!-- BOTÕES DE NAVEGAÇÃO SECUNDÁRIOS -->
+        <div id="menu-navegacao">
+            <button class="sub-btn" onclick="explorar()">🌲 Explorar</button>
+            <button class="sub-btn" onclick="fogueira()">🔥 Fogueira</button>
+            <button class="sub-btn" onclick="mostrarInventario()">🎒 Feras</button>
+            <button class="sub-btn" onclick="abrirSelecaoSkins()">👑 Alma / Skin</button>
+        </div>
+    </div>
+
+    <!-- MODAL OVERLAY -->
+    <div id="modal-overlay">
+        <div id="modal-box">
+            <div id="modal-texto"></div>
+            <div class="modal-botoes" id="modal-botoes-container">
+                <button class="modal-btn" onclick="fecharModal()">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="feras.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
