@@ -612,3 +612,88 @@ canvas#canvasArena {
     0% { opacity: 0.4; }
     100% { opacity: 1; }
 }
+
+/* =========================================
+   TELA DE MORTE / GAME OVER (ROXO / NEON)
+========================================= */
+/* =========================================
+   TELA DE MORTE / GAME OVER (ROXO ESCURO)
+========================================= */
+#tela-morte {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #000000;
+    /* Se fores usar a imagem de fundo na pasta assets/img/fundo_morte.png, desativa o comentário abaixo: */
+    /* background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)), url('assets/img/fundo_morte.png'); */
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.morte-container {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+
+.texto-game-over {
+    font-size: 32px;
+    color: #9926ff; /* Roxo escuro e marcante */
+    letter-spacing: 4px;
+    text-shadow: 0 0 15px #9926ff, 0 0 30px #4d0099; /* Sombra profunda em roxo noite */
+    animation: pulsarMorte 1.5s infinite alternate;
+}
+
+.sub-morte {
+    font-size: 12px;
+    color: #9980cc; /* Lilás mais fechado e discreto */
+    letter-spacing: 2px;
+}
+
+@keyframes pulsarMorte {
+    0% { transform: scale(1); opacity: 0.8; filter: drop-shadow(0 0 5px #4d0099); }
+    100% { transform: scale(1.04); opacity: 1; filter: drop-shadow(0 0 15px #9926ff); }
+}
+
+#btn-recomecar {
+    background: transparent !important;
+    border: none !important;
+    outline: none !important;
+    color: #ffffff;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 16px;
+    letter-spacing: 3px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: all 0.2s ease;
+}
+
+#btn-recomecar:hover, #btn-recomecar.focado {
+    color: #ffff00;
+    text-shadow: 0 0 10px #ffff00, 0 0 20px #ff9900;
+    transform: scale(1.1);
+}
+
+#tela-morte {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #000000;
+    background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('assets/img/fundo_morte.png');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}

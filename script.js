@@ -218,6 +218,16 @@ function atualizarFocoTeclado(grupoSelector) {
 }
 
 window.addEventListener("keydown", (e) => {
+    // ATALHO PARA TELA DE MORTE
+    const telaMorteAtiva = document.getElementById("tela-morte").style.display === "flex";
+    if (telaMorteAtiva) {
+        if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            reiniciarJogoCompleto();
+        }
+        return;
+    }
+
     // ATALHO PARA TELA INICIAL
     if (!jogoIniciado) {
         if (e.key === "Enter" || e.key === " ") {
@@ -397,7 +407,6 @@ function explorar() {
     emCombate = true;
     emFaseDesvio = false;
 
-    // Seleciona uma fera aleatória
     animalAtual = Object.assign({}, inimigos[Math.floor(Math.random() * inimigos.length)]);
     animalAtual.chancePiedade = animalAtual.chancePiedade || 20;
 
@@ -424,7 +433,6 @@ function prepararAtaqueInimigo(mensagemAcao) {
         </div>
     `;
 
-    // Garante que o botão de defesa venha pré-selecionado pelo teclado
     indiceFocado = 0;
     atualizarFocoTeclado(".opcao-ut");
 
@@ -663,13 +671,22 @@ function loopArena() {
             document.getElementById("caixa-texto").style.display = "block";
 
             if (vida <= 0) {
-                escreverTexto(`* Você perdeu toda a sua DETERMINAÇÃO...`, () => {
+                clearInterval(loopArenaId);
+                emFaseDesvio = false;
+                tocarSomDano();
+
+                ocultarModosDisplay();
+                document.getElementById("undertale-box").style.display = "none";
+                
+                const telaMorte = document.getElementById("tela-morte");
+                if (telaMorte) {
+                    telaMorte.style.display = "flex";
                     setTimeout(() => {
-                        vida = vidaMax;
-                        atualizarStatus();
-                        restaurarMenu();
-                    }, 2000);
-                });
+                        const btnRecomecar = document.getElementById("btn-recomecar");
+                        if (btnRecomecar) btnRecomecar.classList.add("focado");
+                    }, 100);
+                }
+                return;
             } else {
                 escreverTexto(`* Você tomou ${animalAtual.dano} de dano!`, () => {
                     setTimeout(() => {
@@ -783,6 +800,31 @@ function restaurarMenu() {
     ocultarModosDisplay();
     document.getElementById("caixa-texto").style.display = "block";
     escreverTexto(`* O caminho se abre à sua frente.\n* O que você fará?`);
+}
+
+function reiniciarJogoCompleto() {
+    tocarSomAcao();
+
+    nivel = 1;
+    almas = 0;
+    almasNecessarias = 30;
+    vidaMax = 20;
+    vida = vidaMax;
+    danoAtaque = 5;
+    agilidade = 0;
+    macasMax = 5;
+    macas = macasMax;
+    animaisCapturados = [];
+
+    atualizarStatus();
+
+    const telaMorte = document.getElementById("tela-morte");
+    if (telaMorte) telaMorte.style.display = "none";
+    
+    const undertaleBox = document.getElementById("undertale-box");
+    if (undertaleBox) undertaleBox.style.display = "flex";
+
+    restaurarMenu();
 }
 
 function mostrarInventario() {
