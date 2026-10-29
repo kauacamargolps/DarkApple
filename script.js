@@ -461,17 +461,42 @@ function açaoLutar() {
     if (!emCombate || !animalAtual || emFaseDesvio) return;
     tocarSomAcao();
 
+    // 1. Esconde os botões principais para o jogador não poder clicar em "Lutar" de novo
+    ocultarModosDisplay();
+    const menu = document.getElementById("menu-interativo");
+    menu.style.display = "grid";
+
+    // Garante que o menu de navegação/combate principal suma da tela
+    document.getElementById("botoes-principais").style.display = "none";
+
+    menu.innerHTML = `
+        <div class="opcao-ut focado" onclick="resolverApunhalada()" style="grid-column: span 2; text-align: center;">
+            🎯 CONFIRMAR GOLPE (ENTER)
+        </div>
+    `;
+
+    indiceFocado = 0;
+    atualizarFocoTeclado(".opcao-ut");
+
+    escreverTexto(`* Você se prepara para desferir um golpe em ${animalAtual.nome}!\n* Confirme para atacar.`);
+}
+
+function resolverApunhalada() {
+    tocarSomAcao();
+    
     const danoCausado = danoAtaque + Math.floor(Math.random() * 3);
     animalAtual.hp -= danoCausado;
     atualizarHpInimigo();
     tocarSomBeep(600, 0.1, "sawtooth");
 
+    ocultarModosDisplay();
+    document.getElementById("caixa-texto").style.display = "block";
+
+    // Se a fera zerou o HP, ela morre e o combate acaba com vitória
     if (animalAtual.hp <= 0) {
         const almasGanha = Math.floor(animalAtual.almas * 1.2);
         almas += almasGanha;
 
-        ocultarModosDisplay();
-        document.getElementById("caixa-texto").style.display = "block";
         mostrarMonstro(false);
         atualizarHpInimigo();
 
@@ -480,8 +505,15 @@ function açaoLutar() {
                 restaurarMenu();
             }, 1800);
         });
-    } else {
-        prepararAtaqueInimigo(`* Você atacou ${animalAtual.nome} e causou ${danoCausado} de dano!`);
+    } 
+    // Se a fera sobreviveu, OBRIGATORIAMENTE ela vai revidar (chama a defesa)
+    else {
+        escreverTexto(`* Você causou ${danoCausado} de dano em ${animalAtual.nome}!`, () => {
+            setTimeout(() => {
+                // Aqui é onde você é obrigado a se defender!
+                prepararAtaqueInimigo(`* O(a) ${animalAtual.nome} vai contra-atacar! Prepare-se para desviar!`);
+            }, 1200);
+        });
     }
 }
 
