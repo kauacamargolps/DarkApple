@@ -1,81 +1,131 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dark Apples: Undertale Edition</title>
+    <title>Dark Apples: Under-Souls Edition</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-    <!-- TELA INICIAL / TITLE SCREEN -->
-    <div id="tela-inicio">
+
+    <!-- TELA INICIAL -->
+    <section id="tela-inicio">
+        <div class="inicio-selo">✦ UMA LENDA DESPERTA NA FLORESTA ✦</div>
         <div class="titulo-jogo">
             <h1>DARK APPLES</h1>
-            <p class="subtitulo">UNDER-SOULS EDITION</p>
+            <p>UNDER-SOULS EDITION</p>
         </div>
 
-        <div id="btn-iniciar-jogo" onclick="iniciarJogo()">
-            COMECAR
+        <div class="inicio-info">
+            <p>Uma jornada entre almas e feras.</p>
+            <div class="inicio-detalhe">Explore. Enfrente. Proteja sua chama.</div>
+            <button id="btn-iniciar-jogo" onclick="abrirTelaSaves()">
+                ♥ COMEÇAR
+            </button>
         </div>
-    </div>
+    </section>
 
-    <!-- TELA DE MORTE / GAME OVER -->
-    <div id="tela-morte" style="display: none;">
+    <!-- SELEÇÃO / GERENCIAMENTO DE SAVES -->
+    <section id="tela-saves" class="oculto">
+        <div class="saves-container">
+            <h2>SUAS JORNADAS</h2>
+            <p>Escolha uma jornada salva ou comece uma nova.</p>
+            <div id="lista-saves" class="lista-saves"></div>
+            <button id="btn-novo-save" onclick="criarNovoSave()">＋ NOVO SAVE</button>
+            <button onclick="voltarDoMenuSaves()">VOLTAR</button>
+        </div>
+    </section>
+
+    <!-- SELEÇÃO DE PERSONAGEM ANTES DA JORNADA -->
+    <section id="tela-selecao-personagem" class="oculto">
+        <div class="selecao-container">
+            <h2>ESCOLHA SEU PERSONAGEM</h2>
+            <p>Escolha sua alma antes de iniciar a jornada.</p>
+            <div class="selecao-legenda">Cada alma carrega uma habilidade diferente.</div>
+            <div id="personagens-iniciais" class="grid-skins"></div>
+            <button id="btn-confirmar-personagem" onclick="confirmarPersonagemEIniciar()" disabled>
+                COMEÇAR JORNADA ♥
+            </button>
+            <button id="btn-voltar-inicio" onclick="voltarTelaInicio()">
+                VOLTAR
+            </button>
+        </div>
+    </section>
+
+    <!-- GAME OVER -->
+    <section id="tela-morte" class="oculto">
         <div class="morte-container">
-            <h1 class="texto-game-over">VOCÊ MORREU</h1>
-            <p class="sub-morte">* Mantenha a sua DETERMINAÇÃO...</p>
-            <div id="btn-recomecar" onclick="reiniciarJogoCompleto()">
-                RECOMEÇAR
-            </div>
+            <img class="imagem-morte" src="assets/img/fundo_morte.png" alt="A floresta depois da queda do herói">
+            <div class="coracao-morte">♥</div>
+            <h1>GAME OVER</h1>
+            <p>Sua determinação enfraqueceu...</p>
+            <button onclick="reiniciarJogoCompleto()">TENTAR NOVAMENTE</button>
         </div>
-    </div>
+    </section>
 
-    <!-- TELA PRINCIPAL DO JOGO -->
-    <div id="undertale-box" style="display: none;">
-        <!-- ÁREA SUPERIOR: MONSTRO, HP DA FERA E DIÁLOGO -->
-        <div id="inimigo-area">
-            <!-- BARRA DE HP DO INIMIGO -->
-            <div id="inimigo-hp-container" style="display: none; text-align: center; margin-bottom: 8px;">
-                <span id="inimigo-nome-display" style="font-size: 10px; color: #ff3399; margin-right: 8px; text-shadow: 0 0 6px rgba(255, 51, 153, 0.5);">Fera</span>
-                <div style="display: inline-flex; align-items: center; gap: 8px;">
-                    <span style="font-size: 9px; color: #ff3333;">HP</span>
-                    <div id="inimigo-hp-bar-bg">
-                        <div id="inimigo-hp-fill"></div>
-                    </div>
+    <!-- JOGO -->
+    <main id="undertale-box" class="oculto">
+        <header class="logo-menu-principal">DARK APPLES <span>UNDER-SOULS EDITION</span></header>
+
+        <header id="inimigo-area">
+            <div id="inimigo-hp-container">
+                <span id="inimigo-nome-display">Fera</span>
+                <div class="hp-inimigo-bg">
+                    <div id="inimigo-hp-fill"></div>
                 </div>
             </div>
 
-            <div id="monstro-sprite-container">
-                <img id="monstro-img" src="assets/img/animais/pombo.png" alt="Inimigo" style="display: none;">
-                <div id="balao-fala" style="display: none;">
-                    <span id="balao-texto">...</span>
-                </div>
+            <img
+                id="monstro-img"
+                src="assets/img/animais/pombo.png"
+                alt="Fera"
+            >
+
+            <div id="balao-fala">
+                <span id="balao-texto"></span>
             </div>
-        </div>
+        </header>
 
-        <!-- ÁREA CENTRAL: CAIXA DE DIÁLOGO / ARENA / FOGUEIRA -->
-        <div id="display-principal">
-            <canvas id="canvasFogueira" style="display: none;"></canvas>
+        <section id="display-principal">
 
+            <!-- TEXTO -->
             <div id="caixa-texto">
                 <p id="narrativa-texto"></p>
             </div>
 
-            <div id="arena-box" style="display: none;">
-                <canvas id="canvasArena" width="500" height="220"></canvas>
+            <!-- ARENA -->
+            <div id="arena-box">
+                <div class="arena-painel">
+                    <div class="arena-cabecalho">
+                        <div>
+                            <span class="arena-kicker">DARK APPLES • SOBREVIVÊNCIA</span>
+                            <strong>DESVIE DOS ATAQUES</strong>
+                        </div>
+                        <span class="arena-teclas">WASD / SETAS</span>
+                    </div>
+                    <canvas id="canvasArena" width="1000" height="600"></canvas>
+                    <div class="arena-rodape">
+                        <span>✦ Observe os padrões e encontre uma rota segura</span>
+                        <span>ESPAÇO LIVRE = SOBREVIVÊNCIA</span>
+                    </div>
+                </div>
             </div>
 
-            <div id="menu-interativo" style="display: none;"></div>
-        </div>
+            <!-- MENU DE AÇÕES -->
+            <div id="menu-interativo"></div>
 
-        <!-- BARRA DE STATUS COLORIDA -->
-        <div id="status-bar">
+            <!-- FOGUEIRA -->
+            <canvas id="canvasFogueira"></canvas>
+
+        </section>
+
+        <!-- STATUS -->
+        <section id="status-bar">
             <div class="player-info">
                 <span id="nome-jogador">MP</span>
                 <span id="lv-display">LV 1</span>
             </div>
+
             <div id="hp-container">
                 <span class="hp-label">HP</span>
                 <div id="hp-bar-bg">
@@ -83,38 +133,55 @@
                 </div>
                 <span id="hp-text">20 / 20</span>
             </div>
-        </div>
+        </section>
 
         <!-- BOTÕES DE COMBATE -->
-        <div id="botoes-principais" style="display: none;">
-            <button class="ut-btn" id="btn-lutar" onclick="açaoLutar()">LUTAR</button>
-            <button class="ut-btn" id="btn-agir" onclick="açaoAgir()">AGIR</button>
-            <button class="ut-btn" id="btn-item" onclick="açaoItem()">ITEM</button>
-            <button class="ut-btn" id="btn-piedade" onclick="açaoPiedade()">PIEDADE</button>
-        </div>
+        <nav id="botoes-principais">
+            <button id="btn-lutar" class="ut-btn" onclick="acaoLutar()">
+                ⚔ LUTAR
+            </button>
 
-        <!-- BOTÕES DE NAVEGAÇÃO SECUNDÁRIOS -->
-        <div id="menu-navegacao">
-            <button class="sub-btn" onclick="explorar()">🌲 Explorar</button>
-            <button class="sub-btn" onclick="fogueira()">🔥 Fogueira</button>
-            <button class="sub-btn" onclick="mostrarInventario()">🎒 Feras</button>
-            <button class="sub-btn" onclick="abrirSelecaoSkins()">👑 Alma / Skin</button>
-        </div>
-    </div>
+            <button id="btn-agir" class="ut-btn" onclick="acaoAgir()">
+                ✦ AGIR
+            </button>
 
-    <!-- MODAL OVERLAY -->
-    <div id="modal-overlay">
-        <div id="modal-box">
+            <button id="btn-item" class="ut-btn" onclick="acaoItem()">
+                ♥ ITEM
+            </button>
+
+            <button id="btn-piedade" class="ut-btn" onclick="acaoPiedade()">
+                ♡ PIEDADE
+            </button>
+        </nav>
+
+        <!-- MENU FORA DE COMBATE -->
+        <nav id="menu-navegacao">
+            <button class="sub-btn" onclick="explorar()">EXPLORAR</button>
+            <button class="sub-btn" onclick="fogueira()">DESCANSAR</button>
+            <button class="sub-btn" onclick="mostrarInventario()">FERAS</button>\n            <button id="btn-salvar-save" class="sub-btn" onclick="salvarSaveManual()">SALVAR</button>
+        </nav>
+
+    </main>
+
+    <!-- MODAL -->
+    <div id="modal-overlay" class="oculto">
+        <div id="modal-conteudo">
+            <button id="modal-fechar" onclick="fecharModal()">✕</button>
             <div id="modal-texto"></div>
-            <div class="modal-botoes" id="modal-botoes-container">
-                <button class="modal-btn" onclick="fecharModal()">OK</button>
-            </div>
         </div>
     </div>
 
-    <!-- SCRIPTS -->
-    <script src="feras.js"></script>
-    <script src="script.js"></script>
-</body>
+    <script src="js/00-saves.js"></script>\n    <script src="js/01-base.js"></script>
+    <script src="js/02-interface.js"></script>
+    <script src="js/03-exploracao.js"></script>
+    <script src="js/04-combate.js"></script>
+    <script src="js/05-arena.js"></script>
+    <script src="js/06-fluxo-jogo.js"></script>
+    <script src="js/07-fogueira.js"></script>
+    <script src="js/08-progressao-e-bestiario.js"></script>
+    <script src="js/09-skins-e-modais.js"></script>
+    <script src="js/10-gameover-e-inicializacao.js"></script>
+    <script src="js/feras.js"></script>
 
+</body>
 </html>

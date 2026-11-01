@@ -1,11 +1,10 @@
 /* =========================================
-   LISTA DE FERAS / MONSTROS DO JOGO (COM HP E CHANCE DE PIEDADE)
+   LISTA DE FERAS DO DARK APPLES
 ========================================= */
+
 const inimigos = [
 
-    // =========================================
     // NÍVEL 1 — AMEAÇAS COMUNS
-    // =========================================
 
     {
         nome: "Pombo da Podridão",
@@ -15,7 +14,7 @@ const inimigos = [
         almas: 10,
         velocidade: 4.5,
         quantidade: 5,
-        tempoLuta: 5.0,
+        tempoLuta: 5,
         imgSrc: "assets/img/animais/pombo.png",
         fala: "Pruuu... Podridão na alma!",
         chancePiedade: 30,
@@ -29,9 +28,9 @@ const inimigos = [
         hpMax: 20,
         dano: 5,
         almas: 15,
-        velocidade: 5.0,
+        velocidade: 5,
         quantidade: 6,
-        tempoLuta: 6.0,
+        tempoLuta: 6,
         imgSrc: "assets/img/animais/capivara.png",
         fala: "A paz do abismo é tranquila.",
         chancePiedade: 30,
@@ -55,10 +54,7 @@ const inimigos = [
         dicaAcao: "Demonstre serenidade para acalmar seu espírito errante."
     },
 
-
-    // =========================================
     // NÍVEL 2 — AMEAÇAS PERIGOSAS
-    // =========================================
 
     {
         nome: "Lobo das Cinzas",
@@ -68,7 +64,7 @@ const inimigos = [
         almas: 30,
         velocidade: 5.6,
         quantidade: 7,
-        tempoLuta: 7.0,
+        tempoLuta: 7,
         imgSrc: "assets/img/animais/lobo.png",
         fala: "Au... As cinzas queimam!",
         chancePiedade: 20,
@@ -84,7 +80,7 @@ const inimigos = [
         almas: 30,
         velocidade: 5.8,
         quantidade: 7,
-        tempoLuta: 7.0,
+        tempoLuta: 7,
         imgSrc: "assets/img/animais/praga.png",
         fala: "A doença consome tudo ao redor.",
         chancePiedade: 20,
@@ -98,7 +94,7 @@ const inimigos = [
         hpMax: 35,
         dano: 10,
         almas: 40,
-        velocidade: 6.0,
+        velocidade: 6,
         quantidade: 8,
         tempoLuta: 7.5,
         imgSrc: "assets/img/animais/lagosta.png",
@@ -116,7 +112,7 @@ const inimigos = [
         almas: 45,
         velocidade: 6.4,
         quantidade: 8,
-        tempoLuta: 8.0,
+        tempoLuta: 8,
         imgSrc: "assets/img/animais/viuva.png",
         fala: "Venha tricotar a sua própria perdição na teia.",
         chancePiedade: 15,
@@ -124,10 +120,7 @@ const inimigos = [
         dicaAcao: "Um toque inesperado e cuidadoso quebra sua desconfiança venenosa."
     },
 
-
-    // =========================================
     // NÍVEL 3 — AMEAÇAS ELITE
-    // =========================================
 
     {
         nome: "Morcego do Vazio",
@@ -153,7 +146,7 @@ const inimigos = [
         almas: 65,
         velocidade: 7.2,
         quantidade: 9,
-        tempoLuta: 9.0,
+        tempoLuta: 9,
         imgSrc: "assets/img/animais/escorpiao.png",
         fala: "O ferrão do caos é implacável e certeiro.",
         chancePiedade: 15,
@@ -185,7 +178,7 @@ const inimigos = [
         almas: 85,
         velocidade: 7.8,
         quantidade: 9,
-        tempoLuta: 10.0,
+        tempoLuta: 10,
         imgSrc: "assets/img/animais/serpente.png",
         fala: "Sssss... A lua engoliu o sol.",
         chancePiedade: 10,
@@ -193,10 +186,7 @@ const inimigos = [
         dicaAcao: "Conduza o seu olhar de forma pacífica para desarmar o seu bote."
     },
 
-
-    // =========================================
     // NÍVEL 4 — AMEAÇAS LENDÁRIAS
-    // =========================================
 
     {
         nome: "Crocodilo Profano",
@@ -206,7 +196,7 @@ const inimigos = [
         almas: 110,
         velocidade: 8.4,
         quantidade: 10,
-        tempoLuta: 11.0,
+        tempoLuta: 11,
         imgSrc: "assets/img/animais/crocodilo.png",
         fala: "As águas turvas guardam monstros ancestrais.",
         chancePiedade: 10,
@@ -216,13 +206,13 @@ const inimigos = [
 
     {
         nome: "Polvo do Abismo",
-        hp: 100,
-        hpMax: 100,
-        dano: 24,
+        hp: 85,
+        hpMax: 85,
+        dano: 8,
         almas: 140,
-        velocidade: 9.0,
-        quantidade: 10,
-        tempoLuta: 12.0,
+        velocidade: 5.8,
+        quantidade: 6,
+        tempoLuta: 10,
         imgSrc: "assets/img/animais/polvo.png",
         fala: "Tentáculos vindos direto das fossas mais profundas!",
         chancePiedade: 5,

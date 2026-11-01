@@ -1,6 +1,3 @@
-/* =========================================
-   ESTILOS GERAIS & TEMA UNDERTALE
-========================================= */
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
 * {
@@ -11,287 +8,293 @@
 }
 
 body {
-    background-color: #0c0914;
-    color: #ffffff;
+    background: #050505;
+    color: white;
     font-family: 'Press Start 2P', monospace;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
     overflow: hidden;
 }
 
-/* =========================================
-   TELA INICIAL / TITLE SCREEN
-========================================= */
+button {
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.oculto {
+    display: none !important;
+}
+
+/* TELA INICIAL */
+
 #tela-inicio {
     position: fixed;
     inset: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: #05020a;
-    background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.8)), url('assets/img/fundo_inicio.png'); 
-    background-size: cover;
-    background-position: center;
+    background:
+        linear-gradient(rgba(0,0,0,.55), rgba(0,0,0,.9)),
+        url('assets/img/fundo_inicio.png') center/cover;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    z-index: 999;
-    gap: 60px;
-}
-
-.titulo-jogo {
+    gap: 70px;
+    z-index: 100;
     text-align: center;
 }
 
 .titulo-jogo h1 {
-    font-size: 38px;
-    color: #ffffff;
+    font-size: clamp(28px, 5vw, 48px);
+    letter-spacing: 5px;
+    color: white;
+    text-shadow: 4px 4px #7b2cbf;
+}
+
+.titulo-jogo p {
+    margin-top: 20px;
+    font-size: 10px;
+    color: #ffcc00;
     letter-spacing: 4px;
-    text-shadow: 0 0 20px #9966ff, 0 0 35px #6b52a1, 3px 3px 0 #000;
-    animation: pulsarTitulo 2.5s ease-in-out infinite alternate;
 }
 
-.titulo-jogo .subtitulo {
-    font-size: 12px;
-    color: #ff3399;
-    letter-spacing: 6px;
-    margin-top: 14px;
-    text-shadow: 0 0 10px #ff3399;
-}
-
-@keyframes pulsarTitulo {
-    0% { transform: scale(1); filter: drop-shadow(0 0 5px #9966ff); }
-    100% { transform: scale(1.03); filter: drop-shadow(0 0 15px #d966ff); }
+.inicio-info p {
+    font-size: 9px;
+    color: #aaa;
+    margin-bottom: 30px;
 }
 
 #btn-iniciar-jogo {
-    background: transparent !important;
-    border: none !important;
-    outline: none !important;
-    color: #ffffff;
-    font-size: 18px;
-    letter-spacing: 4px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    animation: piscarStart 1.6s infinite alternate;
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 15px;
+    padding: 15px;
+    animation: piscar 1s infinite alternate;
 }
 
-#btn-iniciar-jogo:hover, #btn-iniciar-jogo.focado {
+#btn-iniciar-jogo:hover {
     color: #ffff00;
-    text-shadow: 0 0 12px #ffff00, 0 0 25px #ffcc00;
-    transform: scale(1.15);
 }
 
-@keyframes piscarStart {
-    0% { opacity: 0.4; }
-    100% { opacity: 1; }
+@keyframes piscar {
+    from { opacity: .4; }
+    to { opacity: 1; }
 }
 
-/* =========================================
-   TELA DE MORTE / GAME OVER
-========================================= */
+/* GAME OVER */
+
 #tela-morte {
     position: fixed;
     inset: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: #000000;
-    background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)), url('assets/img/fundo_morte.png'); 
-    background-size: cover;
-    background-position: center;
+    background: black;
+    z-index: 200;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-    z-index: 9999;
+    text-align: center;
 }
 
 .morte-container {
-    text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 30px;
 }
 
-.texto-game-over {
-    font-size: 32px;
-    color: #9926ff;
-    letter-spacing: 4px;
-    text-shadow: 0 0 15px #9926ff, 0 0 30px #4d0099;
-    animation: pulsarMorte 1.5s infinite alternate;
+.coracao-morte {
+    font-size: 70px;
+    color: red;
+    animation: pulsar 1s infinite;
 }
 
-.sub-morte {
-    font-size: 12px;
-    color: #9980cc;
-    letter-spacing: 2px;
+.morte-container h1 {
+    font-size: 30px;
+    letter-spacing: 5px;
 }
 
-@keyframes pulsarMorte {
-    0% { transform: scale(1); opacity: 0.8; filter: drop-shadow(0 0 5px #4d0099); }
-    100% { transform: scale(1.04); opacity: 1; filter: drop-shadow(0 0 15px #9926ff); }
+.morte-container p {
+    font-size: 9px;
+    color: #999;
 }
 
-#btn-recomecar {
-    background: transparent !important;
-    border: none !important;
-    outline: none !important;
-    color: #ffffff;
-    font-family: 'Press Start 2P', monospace;
-    font-size: 16px;
-    letter-spacing: 3px;
-    cursor: pointer;
-    margin-top: 20px;
-    transition: all 0.2s ease;
+.morte-container button {
+    background: transparent;
+    border: 2px solid white;
+    color: white;
+    padding: 15px;
+    font-size: 9px;
 }
 
-#btn-recomecar:hover, #btn-recomecar.focado {
-    color: #ffff00;
-    text-shadow: 0 0 10px #ffff00, 0 0 20px #ff9900;
-    transform: scale(1.1);
+.morte-container button:hover {
+    color: yellow;
+    border-color: yellow;
 }
 
-/* =========================================
-   ESTRUTURA PRINCIPAL DO JOGO
-========================================= */
+/* ESTRUTURA PRINCIPAL */
+
 #undertale-box {
-    width: 640px;
-    height: 480px;
-    background-color: #07040d;
-    border: 3px solid #7d57c1;
-    border-radius: 12px;
+    width: min(700px, 96vw);
+    height: min(650px, 96vh);
+    background: #000;
+    border: 3px solid white;
+    padding: 18px;
     display: flex;
     flex-direction: column;
-    padding: 18px;
+    justify-content: space-between;
     gap: 12px;
-    box-shadow: 0 0 30px rgba(125, 87, 193, 0.35);
 }
+
+/* INIMIGO */
 
 #inimigo-area {
-    height: 110px;
+    height: 145px;
+    position: relative;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-    position: relative;
-}
-
-#monstro-sprite-container {
-    display: flex;
-    align-items: center;
-    gap: 15px;
 }
 
 #monstro-img {
-    width: 96px;
-    height: 96px;
+    max-width: 115px;
+    max-height: 110px;
+    object-fit: contain;
     image-rendering: pixelated;
-    filter: drop-shadow(0 0 12px #9966ff);
-    animation: flutuarMonstro 2s ease-in-out infinite alternate;
+    filter: drop-shadow(0 0 8px rgba(255,255,255,.2));
+    animation: flutuar 2s ease-in-out infinite alternate;
 }
 
-@keyframes flutuarMonstro {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(-4px); }
+@keyframes flutuar {
+    from { transform: translateY(0); }
+    to { transform: translateY(-5px); }
 }
 
 #balao-fala {
-    background: #ffffff;
-    color: #000000;
-    padding: 8px 14px;
-    border-radius: 12px;
-    font-size: 10px;
-    position: relative;
-    max-width: 220px;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
-}
-
-#display-principal {
-    flex-grow: 1;
-    background-color: #000000;
-    border: 2px solid #9966ff;
-    border-radius: 6px;
-    position: relative;
-    padding: 16px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    box-shadow: inset 0 0 15px rgba(153, 102, 255, 0.15);
-}
-
-#display-principal.em-fogueira {
-    background-color: #120700;
-    border-color: #ff5500;
-    box-shadow: inset 0 0 25px rgba(255, 85, 0, 0.35);
-}
-
-#canvasFogueira {
     position: absolute;
-    inset: 0;
+    right: 5px;
+    top: 10px;
+    max-width: 190px;
+    padding: 10px;
+    background: white;
+    color: black;
+    font-size: 8px;
+    line-height: 1.7;
+    display: none;
+}
+
+#inimigo-hp-container {
+    position: absolute;
+    left: 5px;
+    bottom: 5px;
+    display: none;
+    font-size: 8px;
+    z-index: 2;
+}
+
+.hp-inimigo-bg {
+    margin-top: 7px;
+    width: 120px;
+    height: 10px;
+    background: #440000;
+    border: 1px solid white;
+}
+
+#inimigo-hp-fill {
     width: 100%;
     height: 100%;
-    pointer-events: none;
+    background: #00cc55;
+    transition: width .2s;
+}
+
+/* DISPLAY PRINCIPAL */
+
+#display-principal {
+    position: relative;
+    flex: 1;
+    min-height: 220px;
+    background: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
 }
 
 #caixa-texto {
-    font-size: 13px;
-    line-height: 1.8;
-    color: #ffffff;
-    white-space: pre-wrap; /* Garante que os espaços e quebras de linha não fiquem juntos */
+    width: 100%;
+    padding: 15px;
+    font-size: 11px;
+    line-height: 2;
+    color: white;
+    white-space: pre-wrap;
+    z-index: 2;
 }
 
+#narrativa-texto {
+    min-height: 45px;
+}
+
+/* ARENA */
+
 #arena-box {
+    display: none;
     width: 100%;
     height: 100%;
-    display: flex;
     justify-content: center;
     align-items: center;
 }
 
 #canvasArena {
-    background-color: #000000;
-    border: 2px solid #ffffff;
-    border-radius: 4px;
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+    width: min(500px, 100%);
+    height: auto;
+    background: black;
+    border: 3px solid white;
+    image-rendering: pixelated;
 }
 
+/* MENU DE ESCOLHAS */
+
 #menu-interativo {
-    display: grid;
+    display: none;
+    width: 100%;
+    padding: 12px;
     grid-template-columns: 1fr 1fr;
-    gap: 10px;
+    gap: 12px;
+    z-index: 3;
 }
 
 .opcao-ut {
+    min-height: 42px;
     background: transparent;
-    border: 2px solid #6b4ba1;
-    border-radius: 6px;
-    color: #ffffff;
+    border: 2px solid white;
+    color: white;
     padding: 10px;
-    font-family: 'Press Start 2P', monospace;
-    font-size: 10px;
-    cursor: pointer;
+    font-size: 9px;
     text-align: left;
-    transition: all 0.1s ease;
+    line-height: 1.6;
+    transition: .1s;
 }
 
-.opcao-ut:hover, .opcao-ut.focado {
-    background: #ffff00;
-    color: #000000;
+.opcao-ut:hover,
+.opcao-ut.focado {
+    color: #ffff00;
     border-color: #ffff00;
-    box-shadow: 0 0 12px #ffff00;
-    transform: translateY(-2px);
+    transform: translateX(5px);
 }
 
-/* STATUS BAR */
+.opcao-ut:disabled {
+    opacity: .35;
+    cursor: not-allowed;
+}
+
+/* STATUS */
+
 #status-bar {
+    min-height: 35px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 12px;
-    padding: 0 4px;
+    gap: 10px;
+    font-size: 9px;
 }
 
 .player-info {
@@ -300,13 +303,11 @@ body {
 }
 
 #nome-jogador {
-    color: #ff3366;
-    text-shadow: 0 0 8px rgba(255, 51, 102, 0.5);
+    color: #ffcc00;
 }
 
 #lv-display {
-    color: #ffff00;
-    text-shadow: 0 0 8px rgba(255, 255, 0, 0.5);
+    color: white;
 }
 
 #hp-container {
@@ -316,311 +317,1068 @@ body {
 }
 
 .hp-label {
-    color: #ff3333;
+    color: #ffff00;
 }
 
 #hp-bar-bg {
-    width: 120px;
-    height: 12px;
-    background-color: #330000;
-    border: 1px solid #ff3333;
-    border-radius: 3px;
-    position: relative;
-    overflow: hidden;
+    width: 110px;
+    height: 13px;
+    background: #5b2600;
+    border: 1px solid white;
 }
 
 #hp-bar-fill {
-    height: 100%;
-    background-color: #00ff66;
     width: 100%;
-    transition: width 0.3s ease;
-    box-shadow: 0 0 8px #00ff66;
+    height: 100%;
+    background: #ffff00;
+    transition: width .2s;
 }
 
 #hp-text {
-    font-size: 10px;
-    width: 60px;
+    font-size: 8px;
+    min-width: 65px;
     text-align: right;
 }
 
-/* =========================================
-   BOTÕES DE COMBATE (CADA UM COM SUA COR FIXA)
-========================================= */
-#botoes-principais {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
-    height: 42px;
-}
+/* BOTÕES PRINCIPAIS */
 
-.ut-btn {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 10px;
-    cursor: pointer;
-    border-radius: 6px;
-    transition: all 0.15s ease;
-}
-
-/* 1. LUTAR - Vermelho Feroz */
-#btn-lutar {
-    background: #140b24;
-    border: 2px solid #ff3333;
-    color: #ff3333;
-}
-#btn-lutar:hover, #btn-lutar.focado {
-    background: #ff3333 !important;
-    color: #000000 !important;
-    border-color: #ffff00 !important;
-    box-shadow: 0 0 15px #ff3333, 0 0 5px #ffff00;
-    transform: translateY(-2px);
-}
-
-/* 2. AGIR - Amarelo Dourado */
-#btn-agir {
-    background: #140b24;
-    border: 2px solid #ffcc00;
-    color: #ffcc00;
-}
-#btn-agir:hover, #btn-agir.focado {
-    background: #ffcc00 !important;
-    color: #000000 !important;
-    border-color: #ffff00 !important;
-    box-shadow: 0 0 15px #ffcc00, 0 0 5px #ffff00;
-    transform: translateY(-2px);
-}
-
-/* 3. ITEM - Verde Esmeralda */
-#btn-item {
-    background: #140b24;
-    border: 2px solid #00ff88;
-    color: #00ff88;
-}
-#btn-item:hover, #btn-item.focado {
-    background: #00ff88 !important;
-    color: #000000 !important;
-    border-color: #ffff00 !important;
-    box-shadow: 0 0 15px #00ff88, 0 0 5px #ffff00;
-    transform: translateY(-2px);
-}
-
-/* 4. PIEDADE - Azul Ciano */
-#btn-piedade {
-    background: #140b24;
-    border: 2px solid #00ffff;
-    color: #00ffff;
-}
-#btn-piedade:hover, #btn-piedade.focado {
-    background: #00ffff !important;
-    color: #000000 !important;
-    border-color: #ffff00 !important;
-    box-shadow: 0 0 15px #00ffff, 0 0 5px #ffff00;
-    transform: translateY(-2px);
-}
-
-/* =========================================
-   BOTÕES DE NAVEGAÇÃO SECUNDÁRIOS
-========================================= */
+#botoes-principais,
 #menu-navegacao {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 8px;
-    height: 42px;
+    min-height: 48px;
+}
+
+.ut-btn,
+.sub-btn {
+    background: transparent;
+    border: 2px solid;
+    font-size: 9px;
+    transition: .15s;
+}
+
+#btn-lutar {
+    color: #ff5555;
+    border-color: #ff5555;
+}
+
+#btn-agir {
+    color: #ffcc00;
+    border-color: #ffcc00;
+}
+
+#btn-item {
+    color: #55ff99;
+    border-color: #55ff99;
+}
+
+#btn-piedade {
+    color: #55ccff;
+    border-color: #55ccff;
+}
+
+.ut-btn:hover,
+.ut-btn.focado {
+    background: white;
+    color: black !important;
+    border-color: white;
+    transform: translateY(-3px);
 }
 
 .sub-btn {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 9px;
-    cursor: pointer;
-    border-radius: 6px;
-    background: #140b24;
-    transition: all 0.15s ease;
+    color: white;
+    border-color: #888;
+    padding: 8px 2px;
 }
 
-/* Explorar - Verde Menta */
-.sub-btn:nth-child(1) {
-    border: 2px solid #33ff99;
-    color: #33ff99;
-}
-.sub-btn:nth-child(1):hover, .sub-btn:nth-child(1).focado {
-    background: #33ff99 !important;
-    color: #000000 !important;
-    border-color: #ffff00 !important;
-    box-shadow: 0 0 15px #33ff99;
-    transform: translateY(-2px);
+.sub-btn:hover,
+.sub-btn.focado {
+    color: yellow;
+    border-color: yellow;
 }
 
-/* Fogueira - Laranja Fogo */
-.sub-btn:nth-child(2) {
-    border: 2px solid #ff6600;
-    color: #ff6600;
-}
-.sub-btn:nth-child(2):hover, .sub-btn:nth-child(2).focado {
-    background: #ff6600 !important;
-    color: #000000 !important;
-    border-color: #ffff00 !important;
-    box-shadow: 0 0 15px #ff6600;
-    transform: translateY(-2px);
-}
+/* MODAL */
 
-/* Feras - Rosa Choque */
-.sub-btn:nth-child(3) {
-    border: 2px solid #ff3399;
-    color: #ff3399;
-}
-.sub-btn:nth-child(3):hover, .sub-btn:nth-child(3).focado {
-    background: #ff3399 !important;
-    color: #000000 !important;
-    border-color: #ffff00 !important;
-    box-shadow: 0 0 15px #ff3399;
-    transform: translateY(-2px);
-}
-
-/* Alma / Skin - Roxo Neon */
-.sub-btn:nth-child(4) {
-    border: 2px solid #cc66ff;
-    color: #cc66ff;
-}
-.sub-btn:nth-child(4):hover, .sub-btn:nth-child(4).focado {
-    background: #cc66ff !important;
-    color: #000000 !important;
-    border-color: #ffff00 !important;
-    box-shadow: 0 0 15px #cc66ff;
-    transform: translateY(-2px);
-}
-
-/* =========================================
-   MODAL / BESTIÁRIO / SKINS
-========================================= */
 #modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.85);
-    display: none;
+    background: rgba(0,0,0,.88);
+    z-index: 150;
+    display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
+    padding: 15px;
 }
 
-#modal-box {
-    background: #090514;
-    border: 3px solid #9966ff;
-    width: 520px;
-    max-height: 420px;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    border-radius: 10px;
-    box-shadow: 0 0 25px rgba(153, 102, 255, 0.4);
-}
-
-#modal-texto {
-    font-size: 10px;
-    line-height: 1.6;
+#modal-conteudo {
+    position: relative;
+    width: min(550px, 95vw);
+    max-height: 80vh;
     overflow-y: auto;
-    max-height: 280px;
-}
-
-.modal-botoes {
-    display: flex;
-    justify-content: flex-end;
-}
-
-.modal-btn {
-    background: transparent;
-    border: 2px solid #9966ff;
-    border-radius: 6px;
-    color: #9966ff;
-    padding: 8px 18px;
-    font-family: 'Press Start 2P', monospace;
+    background: black;
+    border: 3px solid white;
+    padding: 35px 20px 20px;
     font-size: 10px;
-    cursor: pointer;
-    transition: all 0.1s ease;
+    line-height: 2;
 }
 
-.modal-btn:hover, .modal-btn.focado {
-    background: #9966ff;
-    color: #000000;
-    box-shadow: 0 0 10px #9966ff;
+#modal-fechar {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 16px;
 }
 
-.grid-bestiario, .grid-skins {
+.grid-bestiario,
+.grid-skins {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
-    margin-top: 10px;
+    margin-top: 15px;
 }
 
-.card-bestiario, .card-skin {
-    background: #140b24;
-    border: 2px solid #553388;
-    padding: 10px;
+.card-bestiario,
+.card-skin {
     display: flex;
     align-items: center;
-    gap: 12px;
-    border-radius: 6px;
+    gap: 10px;
+    border: 1px solid #777;
+    padding: 10px;
+    font-size: 8px;
 }
 
 .card-skin {
     flex-direction: column;
     text-align: center;
     cursor: pointer;
-    transition: all 0.15s ease;
 }
 
-.card-skin:hover {
-    border-color: #9966ff;
-    transform: translateY(-2px);
-}
-
+.card-skin:hover,
 .card-skin.skin-equipada {
-    border-color: #00ff66;
-    background: #0a1f14;
-    box-shadow: 0 0 10px rgba(0, 255, 102, 0.2);
+    border-color: yellow;
+    color: yellow;
 }
 
-.card-bestiario img, .card-skin img {
-    width: 40px;
-    height: 40px;
+.card-bestiario img,
+.card-skin img {
+    width: 45px;
+    height: 45px;
+    object-fit: contain;
     image-rendering: pixelated;
-}
-
-.card-bestiario-nome, .card-skin-nome {
-    font-size: 9px;
-    color: #ffffff;
-}
-
-.card-skin-desc {
-    font-size: 7px;
-    color: #bb99ff;
-    margin-top: 4px;
 }
 
 .card-bestiario-qtd {
     margin-left: auto;
-    font-size: 10px;
-    color: #ff3399;
+    color: yellow;
 }
+
+.card-skin-desc {
+    color: #aaa;
+    font-size: 7px;
+}
+
+/* FOGUEIRA */
+
+#canvasFogueira {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    display: none;
+}
+
+/* RESPONSIVIDADE */
+
+@media (max-width: 550px) {
+    #undertale-box {
+        height: 96vh;
+        padding: 10px;
+        gap: 8px;
+    }
+
+    #inimigo-area {
+        height: 115px;
+    }
+
+    #monstro-img {
+        max-width: 85px;
+        max-height: 85px;
+    }
+
+    #balao-fala {
+        max-width: 130px;
+        font-size: 7px;
+    }
+
+    #caixa-texto {
+        font-size: 9px;
+    }
+
+    .ut-btn,
+    .sub-btn {
+        font-size: 7px;
+    }
+
+    #status-bar {
+        font-size: 7px;
+    }
+
+    #hp-bar-bg {
+        width: 65px;
+    }
+
+    #hp-text {
+        font-size: 7px;
+        min-width: 50px;
+    }
+}
+
+/* SELEÇÃO DE PERSONAGEM ANTES DA JORNADA */
+#tela-selecao-personagem {
+    position: fixed;
+    inset: 0;
+    z-index: 150;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 24px;
+    overflow-y: auto;
+    background: linear-gradient(rgba(0,0,0,.82), rgba(0,0,0,.96)),
+        url('assets/img/fundo_inicio.png') center/cover;
+    text-align: center;
+}
+
+.selecao-container {
+    width: min(760px, 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+}
+
+.selecao-container h2 {
+    color: #fff;
+    font-size: clamp(13px, 2.5vw, 20px);
+    line-height: 1.8;
+}
+
+.selecao-container > p {
+    color: #aaa;
+    font-size: 9px;
+    line-height: 1.8;
+}
+
+#personagens-iniciais {
+    width: 100%;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+}
+
+#personagens-iniciais .card-skin {
+    min-height: 145px;
+    background: rgba(10, 10, 18, .85);
+    color: #eee;
+}
+
+#personagens-iniciais .card-skin.skin-equipada {
+    border: 2px solid #ffcc00;
+    box-shadow: 0 0 14px rgba(255, 204, 0, .25);
+    color: #ffdf55;
+}
+
+#personagens-iniciais .card-skin img {
+    width: 65px;
+    height: 65px;
+}
+
+.marca-selecao {
+    color: #ffcc00;
+    font-size: 7px;
+}
+
+#btn-confirmar-personagem,
+#btn-voltar-inicio {
+    border: 1px solid #8b5cf6;
+    background: #160d27;
+    color: white;
+    padding: 13px 18px;
+    font-family: inherit;
+    font-size: 9px;
+}
+
+#btn-confirmar-personagem:disabled {
+    opacity: .35;
+    cursor: not-allowed;
+}
+
+#btn-confirmar-personagem:not(:disabled):hover,
+#btn-voltar-inicio:hover {
+    border-color: #ffcc00;
+    color: #ffcc00;
+}
+
+@media (max-width: 600px) {
+    #personagens-iniciais { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    #personagens-iniciais .card-skin { min-height: 125px; }
+}
+
+
+/* ==========================================================
+   DARK APPLES — IDENTIDADE VISUAL: FLORESTA DAS ALMAS
+   Camada de acabamento: mantém o clima retrô, com mais cor,
+   profundidade, brilho e cantos suaves.
+========================================================== */
+:root {
+    --violeta: #a78bfa;
+    --violeta-forte: #7c3aed;
+    --azul-noite: #11162f;
+    --rosa-alma: #ff78b7;
+    --dourado: #ffd27a;
+    --verde-folha: #7ce6b2;
+    --painel: rgba(12, 10, 27, .92);
+}
+
+body {
+    background: radial-gradient(ellipse at 50% 20%, #25204a 0%, #0a0b18 55%, #05050b 100%);
+    color: #f7f1ff;
+}
+
+#tela-inicio {
+    background:
+        linear-gradient(180deg, rgba(5, 5, 16, .30), rgba(7, 5, 18, .62) 55%, rgba(5, 5, 12, .94)),
+        url('assets/img/fogueira_fundo.png') center 58% / cover,
+        url('assets/img/fundo_inicio.png') center / cover;
+    isolation: isolate;
+}
+#tela-inicio::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 55%, rgba(151, 92, 255, .16), transparent 48%);
+    pointer-events: none;
+    z-index: -1;
+}
+.inicio-selo {
+    color: var(--dourado);
+    font-size: clamp(7px, 1vw, 10px);
+    letter-spacing: 3px;
+    text-shadow: 0 0 18px rgba(255, 180, 90, .7);
+}
+.titulo-jogo h1 {
+    font-size: clamp(34px, 6vw, 68px);
+    letter-spacing: clamp(3px, .8vw, 9px);
+    background: linear-gradient(110deg, #fff 8%, #d8c2ff 42%, #ffb7d8 75%, #ffe0a2);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 8px 35px rgba(151, 92, 255, .35);
+    filter: drop-shadow(0 3px 0 rgba(60, 28, 110, .8));
+}
+.titulo-jogo p { color: #e8c6ff; text-shadow: 0 0 12px #8b5cf6; }
+.inicio-info p { color: #f0e8ff; font-size: clamp(8px, 1vw, 11px); }
+.inicio-detalhe {
+    color: #d7c8f2;
+    font-size: clamp(7px, .9vw, 9px);
+    letter-spacing: 1px;
+    margin: -15px 0 25px;
+}
+#btn-iniciar-jogo {
+    border: 1px solid rgba(255, 220, 150, .75);
+    border-radius: 999px;
+    padding: 16px 30px;
+    color: #fff4d8;
+    background: linear-gradient(135deg, rgba(124, 58, 237, .55), rgba(236, 72, 153, .28));
+    box-shadow: 0 0 24px rgba(167, 139, 250, .35), inset 0 0 18px rgba(255,255,255,.08);
+    animation: brilhoInicio 1.8s ease-in-out infinite alternate;
+}
+#btn-iniciar-jogo:hover { color: #fff; background: linear-gradient(135deg, #7c3aed, #db5c9d); transform: translateY(-3px); }
+@keyframes brilhoInicio { from { box-shadow: 0 0 12px rgba(167,139,250,.25); } to { box-shadow: 0 0 30px rgba(255,180,130,.55); } }
+
+#tela-selecao-personagem {
+    position: fixed;
+    inset: 0;
+    z-index: 110;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 22px;
+    background: linear-gradient(rgba(7,5,18,.78), rgba(7,5,18,.94)), url('assets/img/fundo_inicio.png') center/cover;
+    overflow-y: auto;
+}
+.selecao-container {
+    width: min(760px, 96vw);
+    max-height: 92vh;
+    overflow-y: auto;
+    padding: clamp(18px, 3vw, 30px);
+    border: 1px solid rgba(190, 160, 255, .55);
+    border-radius: 22px;
+    background: linear-gradient(145deg, rgba(28, 20, 53, .96), rgba(9, 10, 25, .96));
+    box-shadow: 0 20px 70px rgba(0,0,0,.55), 0 0 35px rgba(124,58,237,.22);
+    text-align: center;
+}
+.selecao-container h2 { color: #f1ddff; font-size: clamp(12px, 2vw, 18px); line-height: 1.8; }
+.selecao-container > p, .selecao-legenda { color: #c6b6dc; font-size: 9px; line-height: 1.8; margin-top: 8px; }
+#personagens-iniciais { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+#personagens-iniciais .card-skin {
+    min-height: 150px;
+    border: 1px solid rgba(190,160,255,.35);
+    border-radius: 15px;
+    background: linear-gradient(160deg, rgba(102,68,160,.18), rgba(12,14,32,.9));
+    color: #f5edff;
+    transition: transform .2s, border-color .2s, box-shadow .2s;
+}
+#personagens-iniciais .card-skin img { width: 78px; height: 78px; filter: drop-shadow(0 0 10px rgba(167,139,250,.25)); }
+#personagens-iniciais .card-skin:hover { transform: translateY(-4px); border-color: #c4a6ff; }
+#personagens-iniciais .card-skin.skin-equipada {
+    border: 2px solid #d6b6ff;
+    color: #fff;
+    background: linear-gradient(160deg, rgba(124,58,237,.42), rgba(41,25,70,.95));
+    box-shadow: 0 0 22px rgba(167,139,250,.35);
+}
+.marca-selecao { color: var(--dourado); font-size: 7px; letter-spacing: 1px; }
+#btn-confirmar-personagem, #btn-voltar-inicio {
+    margin: 18px 5px 0;
+    padding: 13px 18px;
+    border-radius: 999px;
+    border: 1px solid #b89cff;
+    color: #fff;
+    background: linear-gradient(120deg, #6937bd, #a13c91);
+    font-size: 8px;
+}
+#btn-voltar-inicio { background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.3); }
+#btn-confirmar-personagem:disabled { opacity: .35; cursor: not-allowed; }
+
+#undertale-box {
+    width: min(850px, 97vw);
+    height: min(760px, 97vh);
+    padding: clamp(12px, 2vw, 22px);
+    gap: 14px;
+    border: 1px solid rgba(202, 178, 255, .65);
+    border-radius: 22px;
+    background: linear-gradient(145deg, rgba(16,13,34,.98), rgba(5,7,18,.98));
+    box-shadow: 0 18px 65px rgba(0,0,0,.55), 0 0 35px rgba(124,58,237,.18), inset 0 0 35px rgba(139,92,246,.07);
+}
+#inimigo-area {
+    min-height: 150px;
+    border-radius: 16px;
+    background: radial-gradient(ellipse at center, rgba(104,73,160,.24), rgba(11,10,27,.35) 68%, transparent);
+}
+#monstro-img { max-width: 150px; max-height: 135px; filter: drop-shadow(0 0 14px rgba(183,145,255,.45)); image-rendering: auto; }
+#balao-fala {
+    border: 1px solid rgba(196,168,255,.6);
+    border-radius: 13px 13px 13px 3px;
+    background: linear-gradient(135deg, #fff7ff, #e9ddff);
+    box-shadow: 0 8px 24px rgba(0,0,0,.25);
+    font-size: 8px;
+}
+#inimigo-hp-container { color: #f7eaff; }
+.hp-inimigo-bg { border: 1px solid rgba(255,255,255,.65); border-radius: 99px; overflow: hidden; background: #32152f; }
+#inimigo-hp-fill { background: linear-gradient(90deg, #ff7c9e, #ffc16f); }
+#display-principal {
+    border: 1px solid rgba(164,137,220,.28);
+    border-radius: 17px;
+    background: linear-gradient(145deg, rgba(18,16,40,.94), rgba(7,9,23,.98)) !important;
+    box-shadow: inset 0 0 30px rgba(122,88,190,.10);
+}
+#caixa-texto { color: #f4eaff; font-size: clamp(9px, 1.1vw, 11px); line-height: 2.2; }
+#canvasArena {
+    border: 1px solid rgba(193,164,255,.8);
+    border-radius: 13px;
+    box-shadow: 0 0 24px rgba(124,58,237,.2), inset 0 0 20px rgba(255,255,255,.04);
+    image-rendering: auto;
+}
+.opcao-ut {
+    border: 1px solid rgba(190,160,255,.65);
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(90,58,145,.22), rgba(17,17,39,.85));
+    color: #f7edff;
+    padding: 12px;
+    font-size: 8px;
+}
+.opcao-ut:hover, .opcao-ut.focado { color: #fff; border-color: #f7c8ff; background: linear-gradient(135deg, rgba(124,58,237,.72), rgba(197,66,147,.42)); box-shadow: 0 0 16px rgba(190,140,255,.2); transform: translateY(-2px); }
+#status-bar {
+    min-height: 48px;
+    padding: 9px 13px;
+    border: 1px solid rgba(179,153,230,.28);
+    border-radius: 13px;
+    background: linear-gradient(90deg, rgba(45,30,77,.68), rgba(18,24,47,.82));
+    color: #f5eaff;
+}
+#nome-jogador { color: #e3c3ff; }
+#lv-display { color: #9ce8d1; }
+.hp-label { color: #ffc5dc; }
+#hp-bar-bg { border: 1px solid rgba(255,255,255,.45); border-radius: 99px; overflow: hidden; background: #402039; }
+#hp-bar-fill { background: linear-gradient(90deg, #fb7185, #fbbf75); box-shadow: 0 0 12px rgba(251,113,133,.4); }
+.ut-btn, .sub-btn {
+    min-height: 48px;
+    border-radius: 13px;
+    background: linear-gradient(145deg, rgba(24,20,48,.92), rgba(10,13,30,.95));
+    font-size: 8px;
+    letter-spacing: .4px;
+}
+#btn-lutar { color: #ff9aa9; border-color: #e87991; }
+#btn-agir { color: #ffe09a; border-color: #d9ae5d; }
+#btn-item { color: #9de8c1; border-color: #69c99a; }
+#btn-piedade { color: #a8d9ff; border-color: #75b8ec; }
+.ut-btn:hover, .ut-btn.focado { background: linear-gradient(120deg, #fff, #e9d9ff); color: #251638 !important; border-color: white; box-shadow: 0 0 18px rgba(210,180,255,.25); }
+.sub-btn { color: #e8d8ff; border-color: rgba(182,157,225,.55); }
+.sub-btn:hover, .sub-btn.focado { color: #ffe1a1; border-color: #ffe1a1; background: rgba(135,90,185,.22); }
+#modal-overlay { background: rgba(3,3,12,.84); backdrop-filter: blur(8px); }
+#modal-conteudo {
+    border: 1px solid rgba(194,166,255,.7);
+    border-radius: 19px;
+    background: linear-gradient(145deg, #21173a, #090b1d);
+    box-shadow: 0 20px 70px rgba(0,0,0,.6), 0 0 30px rgba(124,58,237,.18);
+}
+.card-skin, .card-bestiario {
+    border: 1px solid rgba(180,150,230,.38);
+    border-radius: 13px;
+    background: rgba(255,255,255,.035);
+}
+.card-skin:hover, .card-skin.skin-equipada { border-color: #d2b5ff; color: #f7eaff; background: rgba(124,58,237,.18); }
+.card-skin img, .card-bestiario img { width: 64px; height: 64px; image-rendering: auto; filter: drop-shadow(0 0 8px rgba(180,140,255,.24)); }
+.card-skin-desc { color: #c5b5db; }
+#canvasFogueira { border-radius: 17px; }
+
+@media (max-width: 600px) {
+    #personagens-iniciais { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    #undertale-box { height: 97vh; border-radius: 15px; }
+    #botoes-principais, #menu-navegacao { gap: 6px; }
+    .ut-btn, .sub-btn { font-size: 7px; min-height: 43px; }
+    #status-bar { flex-wrap: wrap; }
+}
+
+/* Atualização visual: título destacado no topo da tela inicial. */
+.inicio-topo {
+    position: absolute;
+    top: clamp(28px, 6vh, 58px);
+    left: 0;
+    right: 0;
+    text-align: center;
+    pointer-events: none;
+}
+.marca-jogo {
+    color: #f7eaff;
+    font-size: clamp(22px, 4vw, 42px);
+    letter-spacing: clamp(3px, .8vw, 8px);
+    text-shadow: 0 0 12px #a879ff, 0 0 34px rgba(151,92,255,.7), 3px 4px #39205f;
+}
+.submarca-jogo {
+    margin-top: 10px;
+    color: #f4c8ff;
+    font-size: clamp(7px, .9vw, 10px);
+    letter-spacing: 3px;
+}
+#tela-inicio { gap: 48px; }
+
+/* Game over com arte de fundo, moldura e contraste melhorado. */
+#tela-morte {
+    overflow: hidden;
+    padding: 24px;
+    background: linear-gradient(180deg, rgba(5,4,15,.42), rgba(5,4,15,.92)), url('assets/img/fundo_morte.png') center/cover;
+}
+#tela-morte::before {
+    content: "";
+    position: absolute;
+    inset: 18px;
+    border: 1px solid rgba(196,166,255,.48);
+    border-radius: 24px;
+    box-shadow: inset 0 0 50px rgba(117,75,190,.14), 0 0 35px rgba(0,0,0,.35);
+    pointer-events: none;
+}
+.morte-container {
+    position: relative;
+    width: min(560px, 92vw);
+    padding: 28px 24px 32px;
+    border: 1px solid rgba(190,160,255,.48);
+    border-radius: 22px;
+    background: linear-gradient(145deg, rgba(19,14,38,.86), rgba(5,6,18,.91));
+    box-shadow: 0 20px 70px rgba(0,0,0,.55), 0 0 35px rgba(124,58,237,.22);
+    backdrop-filter: blur(6px);
+}
+.imagem-morte {
+    width: min(300px, 70vw);
+    height: 150px;
+    object-fit: cover;
+    object-position: center 48%;
+    border-radius: 15px;
+    border: 1px solid rgba(195,164,255,.45);
+    box-shadow: 0 0 25px rgba(133,91,220,.25);
+}
+.coracao-morte { margin-top: -12px; font-size: 38px; color: #ff7d9d; text-shadow: 0 0 18px #e34c8b; }
+.morte-container h1 { color: #f3e5ff; text-shadow: 0 0 18px rgba(181,132,255,.55); }
+.morte-container p { line-height: 2; color: #d1c1e5; }
+.morte-container button {
+    border: 1px solid #c4a6ff;
+    border-radius: 999px;
+    padding: 15px 22px;
+    background: linear-gradient(120deg, #6637a8, #9b438e);
+    box-shadow: 0 0 20px rgba(139,92,246,.25);
+}
+
+/* Arena maior para padrões mais largos e mais tempo de reação. */
+#undertale-box { width: min(1100px, 98vw); }
+#display-principal { min-height: 0; }
+#arena-box { min-height: 300px; padding: 10px; }
+#canvasArena {
+    display: block;
+    width: min(800px, 100%);
+    height: auto;
+    aspect-ratio: 2 / 1;
+    max-height: min(48vh, 440px);
+}
+#menu-interativo { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.descricao-opcao {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    min-height: 66px;
+    padding: 13px 15px;
+    border: 1px solid rgba(197,169,255,.45);
+    border-radius: 12px;
+    background: linear-gradient(110deg, rgba(105,70,160,.25), rgba(13,15,35,.9));
+    color: #e9dcff;
+    font-size: 8px;
+    line-height: 1.9;
+    box-shadow: inset 0 0 18px rgba(139,92,246,.08);
+}
+.descricao-opcao strong { color: #ffe0a0; font-size: 9px; letter-spacing: .5px; }
+.descricao-opcao span { color: #d5c9e8; }
+@media (max-width: 650px) {
+    #arena-box { min-height: 190px; padding: 5px; }
+    #canvasArena { max-height: 34vh; }
+    .imagem-morte { height: 115px; }
+    .morte-container { gap: 18px; }
+}
+
+
+/* Cabeçalho único da tela de jogo: o título da tela inicial continua apenas uma vez. */
+.logo-menu-principal {
+    width: 100%;
+    text-align: center;
+    padding: 10px 8px 13px;
+    color: #f3e7ff;
+    font-size: clamp(14px, 2vw, 22px);
+    letter-spacing: 4px;
+    text-shadow: 0 0 12px #a879ff, 0 0 26px rgba(151,92,255,.55);
+}
+.logo-menu-principal span {
+    display: block;
+    margin-top: 6px;
+    color: #d7b9ff;
+    font-size: 7px;
+    letter-spacing: 3px;
+}
+
+/* Ilustração de floresta na área livre à direita do painel principal.
+   Coloque o arquivo gerado como assets/img/floresta_batalha.png. */
+#display-principal::before {
+    content: "";
+    position: absolute;
+    top: 5%;
+    right: 2%;
+    width: 58%;
+    height: 90%;
+    border-radius: 16px;
+    background-image:
+        linear-gradient(90deg, rgba(9,8,22,.05), rgba(9,8,22,.08)),
+        url('assets/img/floresta_batalha.png'),
+        url('assets/img/fogueira_fundo.png');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    opacity: .78;
+    border: 1px solid rgba(174,139,235,.22);
+    box-shadow: 0 0 24px rgba(110,75,180,.12);
+    pointer-events: none;
+    z-index: 0;
+}
+#caixa-texto { width: 48%; margin-right: auto; position: relative; z-index: 1; }
+#arena-box, #menu-interativo { position: relative; z-index: 2; }
+
+/* Cores próprias e bem distintas para cada ação principal. */
+#btn-lutar {
+    color: #ffdce3;
+    border: 1px solid #ff718c;
+    background: linear-gradient(145deg, rgba(132,35,67,.88), rgba(48,15,37,.96));
+}
+#btn-agir {
+    color: #fff0bd;
+    border: 1px solid #e7b84f;
+    background: linear-gradient(145deg, rgba(132,91,24,.88), rgba(48,34,17,.96));
+}
+#btn-item {
+    color: #d6ffe8;
+    border: 1px solid #58c995;
+    background: linear-gradient(145deg, rgba(26,105,76,.88), rgba(12,39,39,.96));
+}
+#btn-piedade {
+    color: #d9edff;
+    border: 1px solid #68b8f5;
+    background: linear-gradient(145deg, rgba(31,83,145,.88), rgba(12,30,58,.96));
+}
+#btn-lutar.focado, #btn-lutar:hover { background: linear-gradient(145deg, #e85e7d, #a52d61); color: white !important; }
+#btn-agir.focado, #btn-agir:hover { background: linear-gradient(145deg, #e5b94f, #9b6724); color: #20142b !important; }
+#btn-item.focado, #btn-item:hover { background: linear-gradient(145deg, #55c98e, #21845d); color: #09251c !important; }
+#btn-piedade.focado, #btn-piedade:hover { background: linear-gradient(145deg, #65b9f2, #326db2); color: #081d35 !important; }
+
+/* A seleção de personagens também mostra claramente o foco do teclado. */
+#personagens-iniciais .card-skin.focado {
+    outline: 3px solid #ffd477;
+    outline-offset: 3px;
+    transform: translateY(-4px);
+    box-shadow: 0 0 22px rgba(255,212,119,.28);
+}
+@media (max-width: 650px) {
+    #display-principal::before { width: 44%; opacity: .48; }
+    #caixa-texto { width: 58%; }
+    .logo-menu-principal { letter-spacing: 2px; }
+}
+
 
 /* =========================================
-   BARRA DE HP DA FERA (ESTILO PERSONAGEM)
-========================================= */
-#inimigo-hp-bar-bg {
-    width: 140px;
-    height: 12px;
-    background-color: #330000;
-    border: 1px solid #ff3333;
-    border-radius: 3px;
-    position: relative;
-    overflow: hidden;
-    display: inline-block;
-    vertical-align: middle;
+   AJUSTES DE LAYOUT — MENU, FOGUEIRA E ARENA
+   ========================================= */
+
+/* A faixa superior só aparece durante um encontro com uma fera.
+   Isso remove o grande espaço vazio do menu de exploração. */
+#inimigo-area {
+    display: none;
+    flex: 0 0 150px;
+    min-height: 150px;
 }
 
-#inimigo-hp-fill {
-    height: 100%;
-    background-color: #00ff66;
+/* A ilustração decorativa fica no menu de exploração e no descanso,
+   mas nunca cobre a arena de esquiva. */
+#display-principal::before {
+    /* A arte de floresta fica somente na tela inicial, não no jogo nem na batalha. */
+    display: none;
+    content: none;
+}
+
+#display-principal.modo-fogueira::before {
+    display: block;
+    content: "";
+    background-image:
+        linear-gradient(90deg, rgba(9,8,22,.08), rgba(9,8,22,.12)),
+        url('assets/img/fogueira_fundo.png');
+    opacity: .92;
+}
+
+#display-principal.modo-arena {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    padding: 12px;
+    background: linear-gradient(145deg, #100d20, #080817) !important;
+}
+
+#display-principal.modo-arena::before {
+    display: none !important;
+    content: none !important;
+}
+
+#display-principal.modo-arena #arena-box {
+    display: flex !important;
     width: 100%;
-    transition: width 0.3s ease;
-    box-shadow: 0 0 8px #00ff66;
+    height: 100%;
+    min-height: 0;
+    padding: 0;
+    margin: 0;
+    flex: 1 1 auto;
+}
+
+#display-principal.modo-arena #canvasArena {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+    aspect-ratio: 2 / 1;
+    object-fit: contain;
+    border-radius: 12px;
+}
+
+/* No descanso, a fogueira ocupa a metade direita e as escolhas ficam
+   empilhadas à esquerda, com CONTINUAR logo abaixo de EVOLUIR LV. */
+#display-principal.modo-fogueira #caixa-texto {
+    width: 50%;
+    align-self: flex-start;
+    margin-right: auto;
+}
+
+#display-principal.modo-fogueira #menu-interativo {
+    width: 52%;
+    grid-template-columns: minmax(0, 1fr);
+    align-content: start;
+    justify-items: stretch;
+    gap: 10px;
+    margin-right: auto;
+    padding: 8px 12px;
+}
+
+#display-principal.modo-fogueira #menu-interativo > div {
+    grid-column: 1;
+}
+
+#display-principal.modo-fogueira .opcao-ut {
+    width: 100%;
+    min-height: 46px;
+}
+
+/* O modo arena não divide a tela com texto, menu ou ilustração lateral. */
+#display-principal.modo-arena #caixa-texto,
+#display-principal.modo-arena #menu-interativo,
+#display-principal.modo-arena #canvasFogueira {
+    display: none !important;
+}
+
+@media (max-width: 700px) {
+    #inimigo-area { flex-basis: 112px; min-height: 112px; }
+    #display-principal.modo-fogueira #caixa-texto,
+    #display-principal.modo-fogueira #menu-interativo { width: 100%; }
+    #display-principal.modo-fogueira::before { width: 100%; opacity: .28; }
+    #display-principal.modo-arena { padding: 5px; }
+    #display-principal.modo-arena #canvasArena { border-radius: 8px; }
+}
+
+
+/* ==========================================================
+   ARENA EXPANDIDA — PAINEL DE BATALHA
+   A arena vira uma janela própria, sem disputar espaço com
+   a narrativa e os menus da tela principal.
+========================================================== */
+#arena-box {
+    display: none;
+    position: fixed !important;
+    inset: 2.5vh 2.5vw !important;
+    z-index: 250 !important;
+    width: auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+    padding: clamp(10px, 2vw, 26px) !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background:
+        radial-gradient(ellipse at 50% 42%, rgba(79, 49, 125, .34), transparent 65%),
+        linear-gradient(145deg, rgba(8, 8, 20, .985), rgba(16, 10, 32, .99)) !important;
+    border: 1px solid rgba(190, 158, 255, .65);
+    border-radius: 24px;
+    box-shadow: 0 25px 100px rgba(0,0,0,.8), 0 0 55px rgba(124,58,237,.25), inset 0 0 35px rgba(167,139,250,.06);
+    backdrop-filter: blur(14px);
+}
+#arena-box::before {
+    content: "";
+    position: absolute;
+    inset: 8px;
+    border: 1px solid rgba(255,255,255,.055);
+    border-radius: 17px;
+    pointer-events: none;
+}
+.arena-painel {
+    position: relative;
+    z-index: 1;
+    width: min(1180px, 100%);
+    max-height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(8px, 1.4vh, 16px);
+}
+.arena-cabecalho, .arena-rodape {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    color: #d9caff;
+    font-family: inherit;
+}
+.arena-cabecalho > div {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.arena-kicker {
+    color: #a78bfa;
+    font-size: clamp(7px, .75vw, 10px);
+    letter-spacing: 2px;
+}
+.arena-cabecalho strong {
+    color: #fff;
+    font-size: clamp(11px, 1.5vw, 18px);
+    letter-spacing: 2px;
+}
+.arena-teclas {
+    padding: 9px 13px;
+    border: 1px solid rgba(167,139,250,.4);
+    border-radius: 9px;
+    background: rgba(124,58,237,.13);
+    color: #e8dcff;
+    font-size: clamp(8px, .8vw, 10px);
+    white-space: nowrap;
+}
+#display-principal.modo-arena #arena-box {
+    position: fixed !important;
+}
+#display-principal.modo-arena #canvasArena {
+    display: block;
+    width: 100% !important;
+    height: auto !important;
+    max-width: 100%;
+    max-height: min(70vh, 760px);
+    aspect-ratio: 5 / 3;
+    object-fit: contain;
+    border: 2px solid rgba(194,166,255,.8);
+    border-radius: 15px;
+    background: #080817;
+    box-shadow: 0 0 0 5px rgba(124,58,237,.08), 0 0 35px rgba(124,58,237,.2);
+    image-rendering: auto;
+}
+.arena-rodape {
+    color: #b8a9d2;
+    font-size: clamp(7px, .75vw, 10px);
+    letter-spacing: .5px;
+}
+.arena-rodape span:last-child { color: #a78bfa; }
+@media (max-width: 700px) {
+    #arena-box { inset: 1vh 1vw !important; padding: 12px !important; border-radius: 15px; }
+    .arena-rodape { flex-direction: column; align-items: flex-start; gap: 5px; }
+    .arena-teclas { padding: 7px 9px; }
+    #display-principal.modo-arena #canvasArena { max-height: 72vh; }
+}
+
+
+/* =========================================
+   MENU DE JORNADAS / SAVES LOCAIS
+========================================= */
+#tela-saves {
+    position: fixed;
+    inset: 0;
+    z-index: 110;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 22px;
+    background:
+      radial-gradient(ellipse at 50% 35%, rgba(83,48,126,.34), transparent 55%),
+      linear-gradient(145deg, rgba(5,5,14,.96), rgba(13,8,25,.98)),
+      url('assets/img/fundo_inicio.png') center/cover;
+}
+.saves-container {
+    width: min(820px, 96vw);
+    max-height: 88vh;
+    overflow-y: auto;
+    padding: clamp(20px,4vw,38px);
+    border: 2px solid rgba(190,160,255,.65);
+    border-radius: 18px;
+    background: rgba(8,7,18,.94);
+    box-shadow: 0 0 0 5px rgba(135,90,220,.08), 0 18px 70px #000, 0 0 45px rgba(125,75,220,.18);
+    text-align: center;
+}
+.saves-container h2 { color:#e7d8ff; letter-spacing:3px; font-size:clamp(15px,2vw,22px); }
+.saves-container > p { color:#a99bbd; margin:12px 0 22px; font-size:10px; }
+.lista-saves { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; margin:18px 0; text-align:left; }
+.save-card { border:1px solid rgba(170,145,220,.45); border-radius:12px; padding:14px; background:linear-gradient(145deg,rgba(35,25,57,.9),rgba(13,12,25,.95)); }
+.save-card h3 { color:#ffe29a; font-size:11px; margin-bottom:9px; }
+.save-card p { color:#c5bdd3; font-size:8px; line-height:2; }
+.save-acoes { display:flex; gap:8px; margin-top:12px; }
+.save-acoes button, .saves-container > button {
+    border:1px solid #a78bfa; border-radius:7px; background:rgba(124,58,237,.15);
+    color:#eee5ff; padding:11px 14px; font-size:9px; cursor:pointer;
+}
+.save-acoes button:first-child { flex:1; }
+.save-acoes .btn-apagar { border-color:#bd687b; color:#ffb4c1; }
+.saves-container > button { margin:6px; min-width:150px; }
+.save-vazio { color:#8d829f; padding:24px 8px; border:1px dashed #514365; border-radius:10px; font-size:9px; }
+.save-limite { color:#ffb4c1 !important; }
+
+/* A fogueira mantém suas ações alinhadas e estáveis, mesmo após subir de nível. */
+#display-principal.modo-fogueira #menu-interativo {
+    display:flex !important;
+    flex-direction:column;
+    align-items:stretch;
+    justify-content:flex-start;
+    position:absolute;
+    left:0;
+    top:12px;
+    width:min(390px,48%) !important;
+    max-height:calc(100% - 24px);
+    overflow:auto;
+    margin:0 !important;
+    padding:12px 18px !important;
+    gap:10px;
+    box-sizing:border-box;
+}
+#display-principal.modo-fogueira #menu-interativo > div { width:100%; }
+#display-principal.modo-fogueira #menu-interativo .opcao-ut {
+    width:100%; transform:none; text-align:center; flex:0 0 auto;
+}
+#display-principal.modo-fogueira #menu-interativo .opcao-ut:hover,
+#display-principal.modo-fogueira #menu-interativo .opcao-ut.focado { transform:translateY(-2px); }
+
+/* Arena com moldura mais elegante e canvas maior. */
+#display-principal.modo-arena {
+    position:fixed !important; inset:0 !important; z-index:180 !important;
+    width:100vw !important; height:100dvh !important; min-height:100dvh !important;
+    padding:clamp(12px,2.5vw,30px) !important;
+    background:
+      radial-gradient(ellipse at center, rgba(74,48,116,.38), transparent 68%),
+      linear-gradient(145deg,#090713,#17102a 55%,#080711) !important;
+}
+#display-principal.modo-arena #arena-box { width:100% !important; height:100% !important; }
+#display-principal.modo-arena .arena-painel {
+    width:min(1450px,100%) !important;
+    height:100%;
+    max-height:100%;
+    padding:clamp(12px,2vw,24px);
+    border:1px solid rgba(190,160,255,.48);
+    border-radius:20px;
+    background:linear-gradient(145deg,rgba(23,17,39,.96),rgba(7,7,17,.96));
+    box-shadow:0 0 0 5px rgba(130,90,220,.08),0 18px 70px rgba(0,0,0,.6),inset 0 0 35px rgba(126,83,190,.08);
+}
+#display-principal.modo-arena #canvasArena {
+    flex:1 1 auto;
+    min-height:0;
+    width:100% !important;
+    height:100% !important;
+    max-height:none !important;
+    aspect-ratio:5 / 3;
+    border:2px solid rgba(202,177,255,.8);
+    border-radius:14px;
+    box-shadow:0 0 0 4px rgba(166,125,255,.08),0 0 35px rgba(142,92,255,.2);
+}
+.arena-rodape { padding:3px 4px 0; }
+@media (max-width:700px) {
+    .saves-container { padding:18px 12px; }
+    .lista-saves { grid-template-columns:1fr; }
+    #display-principal.modo-fogueira #menu-interativo { width:58% !important; padding:8px !important; }
+    #display-principal.modo-arena { padding:8px !important; }
+    #display-principal.modo-arena .arena-painel { padding:9px; gap:8px; }
+    .arena-rodape span:last-child { display:none; }
+}
+
+.aviso-fogueira {
+    margin-top:8px; padding:8px 10px; border-left:3px solid #ff9a6b;
+    background:rgba(150,55,45,.16); color:#ffc3a9; line-height:1.8;
+}
+.titulo-bestiario { color:#e5d5ff; letter-spacing:2px; margin-bottom:6px; }
+.subtitulo-bestiario { color:#aaa0bd; font-size:8px; margin-bottom:18px; }
+.secao-bestiario { margin-top:20px; padding-top:14px; border-top:1px solid rgba(167,139,250,.28); }
+.secao-bestiario h3 { color:#d8c2ff; font-size:10px; margin-bottom:10px; }
+.bestiario-vazio { color:#8e849d; font-size:8px; padding:10px 0; }
+.secao-bestiario .grid-bestiario { margin-top:8px; }
+.secao-bestiario .card-bestiario { border-radius:8px; background:rgba(255,255,255,.025); }
+
+#tela-saves:not(.oculto) { display:flex !important; visibility:visible !important; z-index:9999 !important; }
+#btn-salvar-save { border-color:rgba(170,145,220,.7); }
+#btn-salvar-save.save-confirmado {
+    color:#c9ffd8 !important;
+    border-color:#6acb91 !important;
+    background:rgba(55,150,90,.2) !important;
+    box-shadow:0 0 12px rgba(90,220,140,.22);
 }
